@@ -7,12 +7,13 @@ export async function delay(ms = 100) {
 
 export async function fetchTasks(boardId: string) {
   await delay()
-  return tasks
+  return JSON.parse(JSON.stringify(tasks))
 }
 
 export async function getTask(id: string) {
   await delay()
-  return tasks.find(task => task.id === id)
+  const task = tasks.find(task => task.id === id)
+  return JSON.parse(JSON.stringify(task))
 }
 
 export async function updateTask(id: string, updates: Partial<ITask>) {

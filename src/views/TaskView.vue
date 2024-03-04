@@ -21,35 +21,20 @@ async function fetchTask() {
 </script>
 
 <template>
-  <div class="task-container">
-    <div class="center">
-      <SnarkDown :md="task?.description ?? ''" />
+  <div class="border-b-2 border-b-solid py-4">
+    <div v-if="task" class="m-auto max-w-xl space-y-4">
       <div>
-        <label for="edit-box">Review of W3Schools:</label>
+        <label class="block font-semibold mb-2" for="id-title">Title</label>
+        <input class="px-4 py-2 max-w-full min-w-0 w-full" v-model="task.title" type="text" id="id-title">
+      </div>
 
-        <textarea id="edit-box" rows="10"></textarea>
+      <SnarkDown class="" :md="task?.description ?? ''" />
+      <div v-if="task?.description">
+        <label class="block font-semibold mb-2" for="id-description">Edit description</label>
+
+        <textarea class="w-full rounded-lg p-4" v-model="task.description" id="id-description" rows="10"></textarea>
       </div>
     </div>
 
   </div>
 </template>
-
-<style scoped>
-.task-container {
-  border-bottom: 3px solid var(--color-border);
-}
-
-.center {
-  margin: 0 auto;
-  max-width: 65ch;
-}
-
-textarea {
-  width: 100%;
-
-  margin-top: 1rem;
-  border: 3px solid var(--color-border);
-  border-radius: 0.5rem;
-  font-size: 1rem;
-}
-</style>

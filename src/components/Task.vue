@@ -14,7 +14,7 @@ const createdAt = useTimeAgo(props.task.created);
 </script>
 
 <template>
-  <li class="task" draggable="true">
+  <li class="task border-l-3 border-l-solid border-green-400 bg-gray-900 rounded-md" draggable="true">
 
     <RouterLink class="edit-link" :to="{ name: 'task', params: { taskId: task.id } }">
       <h3 class="flex-between">
@@ -39,7 +39,7 @@ const createdAt = useTimeAgo(props.task.created);
   cursor: grab;
   list-style: none;
   list-style-position: outside;
-  border: 3px solid var(--color-border);
+
 }
 
 .task h3 {
