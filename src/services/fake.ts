@@ -1,0 +1,97 @@
+import { type ITask, TaskStatus, type IUser } from '../types'
+
+export const tasks: ITask[] = [
+  {
+    id: '1',
+    created: '2021-08-01T12:00:00Z',
+    title: 'Design UI for the task board',
+    status: TaskStatus.Todo,
+    summary: 'Create a simple UI for the task board in Figma',
+    description: `# Design UI for the task board in Figma \n- Create a **simple** UI for the task board in Figma`,
+  },
+  {
+    id: '2',
+    created: '2024-01-01T12:00:00Z',
+    title: 'Implement task board UI',
+    status: TaskStatus.Todo,
+    summary: 'Implement the task board UI using Vue',
+    description: 'Implement the task board UI using Vue. The UI should allow users to view tasks in different statuses, add new tasks, and update the status of tasks.',
+  },
+  {
+    id: '3',
+    created: '2024-02-01T12:00:00Z',
+    title: 'Create a fake API',
+    status: TaskStatus.InProgress,
+    summary: 'Create a fake API using MirageJS',
+    description: 'Create a fake API using MirageJS. The API should allow users to fetch tasks, get a single task, update a task, and delete a task.',
+  },
+  {
+    id: '4',
+    created: '2024-02-01T12:00:00Z',
+    title: 'Create a task board component using Vue and a long stick',
+    status: TaskStatus.InProgress,
+    summary: 'Create a task board component using Vue and a long stick',
+    description: 'Create a task board component using Vue. The component should allow users to view tasks in different statuses, add new tasks, and update the status of tasks.',
+  },
+  {
+    id: '5',
+    created: '2024-02-03T17:00:00Z',
+    title: 'Create a task component',
+    status: TaskStatus.InProgress,
+    summary: 'Create a task component using Vue',
+    description: 'Create a task component using Vue. The component should allow users to view a task, update a task, and delete a task.',
+  },
+  {
+    id: '6',
+    created: '2024-02-03T17:00:00Z',
+    title: 'Create a task form component',
+    status: TaskStatus.InProgress,
+    summary: 'Create a task form component using Vue',
+    description: 'Create a task form component using Vue. The component should allow users to add a new task, update a task, and delete a task.',
+  },
+  {
+    id: '7',
+    created: '2024-02-04T17:00:00Z',
+    title: 'Create a task service',
+    status: TaskStatus.InProgress,
+    summary: 'Create a task service using MirageJS',
+    description: 'Create a task service using MirageJS. The service should allow users to fetch tasks, get a single task, update a task, and delete a task.',
+  },
+  {
+    id: '8',
+    created: '2024-02-04T17:00:00Z',
+    title: 'Create a user service',
+    status: TaskStatus.InProgress,
+    summary: 'Create a user service using MirageJS',
+    description: 'Create a user service using MirageJS. The service should allow users to fetch users, get a single user, update a user, and delete a user.',
+  },
+  {
+    id: '9',
+    created: '2024-03-01T17:00:00Z',
+    title: 'Create a user component',
+    status: TaskStatus.Todo,
+    summary: 'Create a user component using Vue',
+    description: 'Create a user component using Vue. The component should allow users to view users, add new users, and update users.',
+  },
+  {
+    id: '10',
+    created: '2024-03-03T13:30:00Z',
+    title: 'Create a user form component',
+    status: TaskStatus.Todo,
+    summary: 'Create a user form component using Vue',
+    description: 'Create a user form component using Vue. The component should allow users to add a new user, update a user, and delete a user.',
+  }
+]
+
+export const users: IUser[] = [
+  { id: '1', name: 'John Doe' },
+  { id: '2', name: 'Jane Doe' },
+  { id: '3', name: 'John Smith' },
+  { id: '4', name: 'Jane Smith' },
+  { id: '5', name: 'John Johnson' },
+  { id: '6', name: 'Jane Johnson' },
+  { id: '7', name: 'John Brown' },
+  { id: '8', name: 'Jane Brown' },
+  { id: '9', name: 'John Davis' },
+  { id: '10', name: 'Jane Davis' },
+]
