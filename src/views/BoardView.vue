@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { computed, onBeforeMount, ref } from 'vue'
 import { TaskStatus, type ITask } from '@/types'
-import { fetchTasks } from '../services/task.service'
+import { useMqtt } from '../services/mqtt'
+
 import Task from '@/components/Task.vue'
 import Column from '@/components/Column.vue'
 
@@ -10,7 +11,9 @@ const props = defineProps<{
 }>()
 
 
-const tasks = ref<ITask[]>([])
+
+const { tasks, update } = useMqtt("ws://test.mosquitto.org:8080/mqtt")
+
 const columns = computed(() => [
   {
     name: 'Todo',
@@ -31,7 +34,7 @@ const columns = computed(() => [
 
 onBeforeMount(async () => {
   // fetch the tasks for the board
-  tasks.value = await fetchTasks(props.boardId)
+  //tasks.value = await fetchTasks(props.boardId)
 })
 
 
@@ -47,12 +50,14 @@ function onTaskDropped(taskId: string, status: TaskStatus) {
   if (task) {
     task.status = status
   }
+  update(tasks.value)
 }
 </script>
 
 <template>
   <div class="board-container">
-    <h1 class="board-heading">Board for <span class="green">{{ boardId }}</span></h1>
+    {{ tasks }}
+    <h1 class="board-heading">Board for us<span class="green">{{ boardId }}</span></h1>
     <RouterView></RouterView>
     <div class="columns-wrapper">
       <div class="columns-container">
