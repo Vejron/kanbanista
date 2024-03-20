@@ -2,15 +2,19 @@ import mqtt, { type MqttClient } from "mqtt"; // import namespace "mqtt"
 import { ref, watch } from "vue";
 import { tasks as initialTasks } from "./fake";
 import type { ITask } from "@/types";
+import { useDebounceFn } from "@vueuse/core";
 
 let client: MqttClient
 const topic = "totally_unique_id_123454321/board";
-
 const tasks = ref<ITask[]>([]);
 
-function isTaskDeepEqual(a: ITask | undefined, b: ITask| undefined) {
-  return a?.id === b?.id && a?.title === b?.title && a?.description === b?.description
-}
+const debouncedUpdate = useDebounceFn(() => {
+  // do something
+  console.log('debouncedFn')
+  if(client && client.connected) {
+    client.publish(topic, JSON.stringify(tasks.value), { retain: true });
+  }
+}, 1000)
 
 export function useMqtt(url?: string) {
 
@@ -34,7 +38,7 @@ export function useMqtt(url?: string) {
     
     client.on("message", (topic, _message) => {
       // message is Buffer
-      console.log(_message.toString());
+      console.log('Received message:')
 
       try {
         const _tasks = JSON.parse(_message.toString());
@@ -49,22 +53,13 @@ export function useMqtt(url?: string) {
       }
 
       //client.end();
-
-      watch(tasks, (newTasks, oldTasks) => {
-        //console.log('Tasks updated, publishing to MQTT');
-        // check if any task is not equal
-        if (!newTasks.every((task, index) => isTaskDeepEqual(task, oldTasks[index]))) {
-          console.log('Tasks are not equal, updating MQTT');
-          //update(newTasks);
-        }
-
-        //update(newTasks);
-      }, { deep: true })
     })
+    
   }
 
   return {
     tasks,
     update,
+    debouncedUpdate
   }
 }
