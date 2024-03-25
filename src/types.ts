@@ -2,6 +2,7 @@ export interface ITask {
   id: string
   created: string
   title: string
+  priority: number
   summary?: string
   description?: string
   estimate?: number

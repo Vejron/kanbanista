@@ -24,6 +24,12 @@ export function useMqtt(url?: string) {
     }
   }
 
+  function clear() {
+    if(client && client.connected) {
+      client.publish(topic, JSON.stringify(initialTasks), { retain: true });
+    }
+  }
+
   if (!client && url) {
     client = mqtt.connect(url);
 
@@ -60,6 +66,7 @@ export function useMqtt(url?: string) {
   return {
     tasks,
     update,
+    clear,
     debouncedUpdate
   }
 }

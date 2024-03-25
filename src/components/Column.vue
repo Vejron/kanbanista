@@ -1,12 +1,13 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
 import { useDropZone } from '@vueuse/core'
-import { type TaskStatus } from '@/types'
+import { type ITask, type TaskStatus } from '@/types'
 
 
 const props = defineProps<{
   name: string
   state: TaskStatus
+  tasks?: ITask[]
 }>()
 
 const emit = defineEmits(['taskDropped'])
@@ -31,11 +32,15 @@ function onDrop(files: any, e: any) {
 </script>
 
 <template>
-  <section ref="dropZoneRef" class="column" :class="{ 'column--drop-over': isOverDropZone }">
-    <h2 class="truncate">{{ name }}</h2>
+  <section ref="dropZoneRef" class="column first:rounded-tl-xl last:rounded-tr-xl"
+    :class="isOverDropZone ? 'bg-slate-700/40' : 'bg-slate-800/20'">
+    <h2 class="text-gray-400 font-medium uppercase text-sm mb-4 flex justify-between">
+      <span>{{ name + ' ' + tasks?.length }}</span>
+    </h2>
     <ul>
       <slot>
-        Column is empty..
+
+
       </slot>
     </ul>
   </section>
@@ -47,12 +52,6 @@ function onDrop(files: any, e: any) {
   min-width: 0;
   width: 40ch;
   transition: background-color 0.2s ease;
-}
-
-.column h2 {
-  margin-bottom: 1rem;
-  font-size: 1.5rem;
-  font-weight: 600;
 }
 
 .column ul {

@@ -2,6 +2,7 @@
 import { computed, onBeforeMount, ref } from 'vue'
 import { TaskStatus, type ITask } from '@/types'
 import { useMqtt } from '../services/mqtt'
+import { Icon } from '@iconify/vue'
 
 import Task from '@/components/Task.vue'
 import Column from '@/components/Column.vue'
@@ -12,7 +13,7 @@ const props = defineProps<{
 
 
 
-const { tasks, update } = useMqtt("ws://test.mosquitto.org:8080/mqtt")
+const { tasks, update, clear } = useMqtt("ws://test.mosquitto.org:8080/mqtt")
 
 const columns = computed(() => [
   {
@@ -55,9 +56,11 @@ function onTaskDropped(taskId: string, status: TaskStatus) {
 </script>
 
 <template>
-  <div class="board-container">
-    {{ tasks }}
-    <h1 class="board-heading">Board for us<span class="green">{{ boardId }}</span></h1>
+  <section class="flex flex-col flex-1">
+    <h1 class="text-4xl font-bold text-center mb-4">Board for <span class="text-green-400 font-black tracking-wider">{{
+      boardId }}</span>
+      <button @click="clear">clear</button>
+    </h1>
     <RouterView></RouterView>
     <div class="columns-wrapper">
       <div class="columns-container">
@@ -65,12 +68,17 @@ function onTaskDropped(taskId: string, status: TaskStatus) {
           <Column v-bind="column" @task-dropped="onTaskDropped">
             <Task @dragstart="onDragStart(task, $event)" :task="task" v-for="task in column.tasks" :key="task.id">
             </Task>
+            <div class="flex mt-4 justify-center">
+              <button
+                class="rounded-full border-none w-10 h-10 grid place-content-center transition-colors text-gray-400 bg-slate-800 hover:bg-green-500 hover:text-black">
+                <Icon class="text-xl text-inherit" icon="mdi:plus" />
+              </button>
+            </div>
           </Column>
-          <div class="divider"></div>
         </template>
       </div>
     </div>
-  </div>
+  </section>
 </template>
 
 <style scoped>
@@ -80,12 +88,6 @@ function onTaskDropped(taskId: string, status: TaskStatus) {
   font-size: 2.25rem;
   font-weight: 600;
   border-bottom: 1.5px solid var(--color-border);
-}
-
-.board-container {
-  display: flex;
-  flex-direction: column;
-  flex-grow: 1;
 }
 
 .columns-wrapper {

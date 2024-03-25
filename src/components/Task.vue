@@ -2,19 +2,23 @@
 import type { ITask } from '@/types';
 import { Icon } from '@iconify/vue';
 import { useTimeAgo } from '@vueuse/core';
+import PriorityToggler from './PriorityToggler.vue';
+import { ref } from 'vue';
 
 const props = defineProps<{
   task: ITask
 }>()
 
 const createdAt = useTimeAgo(props.task.created);
+const avatar = `https://i.pravatar.cc/64?img=${props.task.id}`;
+const priority = ref(0);
 
 
 
 </script>
 
 <template>
-  <li class="task border-l-3 border-l-solid border-green-400 bg-gray-900 rounded-md" draggable="true">
+  <li class="task border-l-3 border-l-solid border-green-400 bg-slate-800 rounded-md" draggable="true">
 
     <RouterLink class="edit-link" :to="{ name: 'task', params: { taskId: task.id } }">
       <h3 class="flex-between">
@@ -26,8 +30,15 @@ const createdAt = useTimeAgo(props.task.created);
       {{ task.description ?? 'Description missing...' }}
     </div>
     <div class="flex-between mt-2">
-      Created:
       <time>{{ createdAt }}</time>
+      <div class="flex gap-1">
+        <button
+          class="border-none bg-slate-700 text-gray-400 w-6 h-6 text-sm rounded-full grid place-content-center hover:bg-black/20 transition-colors duration-200">
+          {{ task.id }}
+        </button>
+        <PriorityToggler v-model="task.priority" />
+        <img :src="avatar" alt="avatar" class="w-6 h-6 rounded-full" />
+      </div>
     </div>
 
   </li>
