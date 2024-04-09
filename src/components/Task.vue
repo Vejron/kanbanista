@@ -3,7 +3,6 @@ import type { ITask } from '@/types';
 import { Icon } from '@iconify/vue';
 import { useTimeAgo } from '@vueuse/core';
 import PriorityToggler from './PriorityToggler.vue';
-import { ref } from 'vue';
 
 const props = defineProps<{
   task: ITask
@@ -11,22 +10,22 @@ const props = defineProps<{
 
 const createdAt = useTimeAgo(props.task.created);
 const avatar = `https://i.pravatar.cc/64?img=${props.task.id}`;
-const priority = ref(0);
-
-
 
 </script>
 
 <template>
-  <li class="task border-l-3 border-l-solid border-green-400 bg-slate-800 rounded-md" draggable="true">
+  <li class="flex gap-2 bg-slate-800 rounded-md border-red border-1 border">
+    <div class="drag-handle w-10 flex-none cursor-grab dots-bg">
 
-    <RouterLink class="edit-link" :to="{ name: 'task', params: { taskId: task.id } }">
+    </div>
+    <div class="py-2.5 pr-4 min-w-0">
+      <RouterLink class="block group hover:text-red" :to="{ name: 'task', params: { taskId: task.id } }">
       <h3 class="flex-between">
-        <span class="min-w-0 truncate">{{ task.title ?? 'No title' }}</span>
-        <Icon icon="mdi:pencil" class="ml-2 icon" />
+        <span class="truncate">{{ task.title ?? 'No title' }}</span>
+        <Icon icon="mdi:pencil" class="ml-2 text-transparent group-hover:text-red" />
       </h3>
     </RouterLink>
-    <div class="description">
+    <div class="description min-w-0">
       {{ task.description ?? 'Description missing...' }}
     </div>
     <div class="flex-between mt-2">
@@ -40,42 +39,14 @@ const priority = ref(0);
         <img :src="avatar" alt="avatar" class="w-6 h-6 rounded-full" />
       </div>
     </div>
-
+    </div>
   </li>
 </template>
 
 <style scoped>
-.task {
-  padding: .5rem 1rem;
-  cursor: grab;
-  list-style: none;
-  list-style-position: outside;
-
-}
-
-.task h3 {
-  margin-bottom: 0.25rem;
-  font-size: 1.25rem;
-  font-weight: 800;
-  color: inherit;
-}
-
-.edit-link {
-  border: none;
-  border-radius: 9999px;
-  display: block;
-  color: var(--color-text);
-}
-
-.edit-link:hover,
-.edit-link:hover .icon {
-  color: hsla(160, 100%, 37%, 1);
-}
-
-
-.icon {
-  color: transparent;
-  flex: none;
+.dots-bg {
+  background-image: radial-gradient(circle, #0000005b 2px, transparent 2px);
+  background-size: 6px 6px;
 }
 
 .description {
@@ -84,11 +55,6 @@ const priority = ref(0);
   display: -webkit-box;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
-  font-size: 0.8rem;
 }
 
-.task.is-moving {
-  opacity: 0.5;
-  position: fixed;
-}
 </style>

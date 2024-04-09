@@ -68,7 +68,7 @@ We will create a few components to help us build the pages. We will start with t
 We will start with installing some additional dependencies that will be of use in this project. The VueUse library provides a collection of useful composition functions for Vue 3. Snarkdown is a simple and minimal markdown parser. Axios is a promise-based HTTP client for the browser and Node.js.
 
 ```sh
-npm i @vueuse/core snarkdown axios
+npm i @vueuse/core snarkdown axios @formkit/drag-and-drop
 ```
 
 We will also install support for iconify icons.

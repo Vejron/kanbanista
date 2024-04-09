@@ -1,47 +1,45 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import { computed, ref, toRef, watch } from 'vue'
 import { useDropZone } from '@vueuse/core'
-import { type ITask, type TaskStatus } from '@/types'
+import { TaskStatus, type ITask } from '@/types'
+import { dragAndDrop } from "@formkit/drag-and-drop/vue";
+import { animations } from "@formkit/drag-and-drop";
+
+import Task from '@/components/Task.vue'
 
 
 const props = defineProps<{
   name: string
-  state: TaskStatus
-  tasks?: ITask[]
+  type: TaskStatus
+  tasks: ITask[]
 }>()
 
-const emit = defineEmits(['taskDropped'])
+const myTasks = ref<ITask[]>([])
+watch(() => props.tasks, (newTasks) => {
+  console.log('tasks updated', newTasks)
+  myTasks.value = newTasks.filter(task => task.status === TaskStatus.Todo)
+  
+}, { immediate: true })
 
-
-const dropZoneRef = ref<HTMLElement>()
-
-const { isOverDropZone } = useDropZone(dropZoneRef, {
-  onDrop,
-})
-
-function onDrop(files: any, e: any) {
-  console.log('dropped', e)
-  // called when files are dropped on zone
-
-  // Get the data, which is the id of the source element
-  const data = e.dataTransfer.getData("text");
-  console.log('with', data)
-  emit('taskDropped', data, props.state)
-}
+const listRef = ref();
+dragAndDrop({
+  parent: listRef,
+  values: myTasks,
+  group: 'tasks',
+  dragHandle: ".drag-handle",
+  plugins: [animations()],
+});
 
 </script>
 
 <template>
-  <section ref="dropZoneRef" class="column first:rounded-tl-xl last:rounded-tr-xl"
-    :class="isOverDropZone ? 'bg-slate-700/40' : 'bg-slate-800/20'">
+  <section class="column flex flex-col first:rounded-tl-xl last:rounded-tr-xl">
     <h2 class="text-gray-400 font-medium uppercase text-sm mb-4 flex justify-between">
-      <span>{{ name + ' ' + tasks?.length }}</span>
+      Todo
     </h2>
-    <ul>
-      <slot>
-
-
-      </slot>
+    <ul class="flex-grow" ref="listRef">
+      <Task :task="task" v-for="task in tasks" :key="task.id">
+      </Task>
     </ul>
   </section>
 </template>
@@ -52,17 +50,5 @@ function onDrop(files: any, e: any) {
   min-width: 0;
   width: 40ch;
   transition: background-color 0.2s ease;
-}
-
-.column ul {
-  padding: 0;
-  list-style: none;
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
-.column.column--drop-over {
-  background-color: hsla(160, 100%, 37%, 0.2);
 }
 </style>

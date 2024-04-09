@@ -11,6 +11,7 @@
     "type-check": "vue-tsc --build --force"
   },
   "dependencies": {
+    "@formkit/drag-and-drop": "^0.0.38",
     "@vueuse/core": "^10.9.0",
     "axios": "^1.6.7",
     "github-markdown-css": "^5.5.1",

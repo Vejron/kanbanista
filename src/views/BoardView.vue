@@ -1,8 +1,10 @@
 <script setup lang="ts">
-import { computed, onBeforeMount, ref } from 'vue'
+import { computed, onBeforeMount, watch, ref } from 'vue'
 import { TaskStatus, type ITask } from '@/types'
 import { useMqtt } from '../services/mqtt'
 import { Icon } from '@iconify/vue'
+import { dragAndDrop } from "@formkit/drag-and-drop/vue";
+import { animations } from "@formkit/drag-and-drop";
 
 import Task from '@/components/Task.vue'
 import Column from '@/components/Column.vue'
@@ -11,39 +13,45 @@ const props = defineProps<{
   boardId: string
 }>()
 
-
-
 const { tasks, update, clear } = useMqtt("ws://test.mosquitto.org:8080/mqtt")
 
-const columns = computed(() => [
-  {
-    name: 'Todo',
-    state: TaskStatus.Todo,
-    tasks: tasks.value.filter(task => task.status === TaskStatus.Todo)
-  },
-  {
-    name: 'In progress',
-    state: TaskStatus.InProgress,
-    tasks: tasks.value.filter(task => task.status === TaskStatus.InProgress)
-  },
-  {
-    name: 'Done',
-    state: TaskStatus.Done,
-    tasks: tasks.value.filter(task => task.status === TaskStatus.Done)
-  },
-])
 
-onBeforeMount(async () => {
-  // fetch the tasks for the board
-  //tasks.value = await fetchTasks(props.boardId)
-})
+const todoTasks = ref<ITask[]>([])
+const inProgressTasks = ref<ITask[]>([])
+const doneTasks = ref<ITask[]>([])
+watch(() => tasks.value, (newTasks) => {
+  console.log('tasks updated', newTasks)
+  todoTasks.value = newTasks.filter(task => task.status === TaskStatus.Todo)
+  inProgressTasks.value = newTasks.filter(task => task.status === TaskStatus.InProgress)
+  doneTasks.value = newTasks.filter(task => task.status === TaskStatus.Done)
+}, { immediate: true })
+/* 
+const todoListRef = ref();
+dragAndDrop({
+  parent: todoListRef,
+  values: todoTasks,
+  group: 'tasks',
+  dragHandle: ".drag-handle",
+  plugins: [animations()],
+}); */
 
+const inProgressListRef = ref();
+dragAndDrop({
+  parent: inProgressListRef,
+  values: inProgressTasks,
+  group: 'tasks',
+  dragHandle: ".drag-handle",
+  plugins: [animations()],
+});
 
-function onDragStart(task: ITask, e: any) {
-  // use the somewhat clunky native drag and drop API to set a reference to the task being dragged
-  e.dataTransfer.clearData();
-  e.dataTransfer.setData('text/plain', task.id)
-}
+const doneListRef = ref();
+dragAndDrop({
+  parent: doneListRef,
+  values: doneTasks,
+  group: 'tasks',
+  dragHandle: ".drag-handle",
+  plugins: [animations()],
+});
 
 function onTaskDropped(taskId: string, status: TaskStatus) {
   // when the task is dropped, find it and then update the status of the task
@@ -58,26 +66,42 @@ function onTaskDropped(taskId: string, status: TaskStatus) {
 <template>
   <section class="flex flex-col flex-1">
     <h1 class="text-4xl font-bold text-center mb-4">Board for <span class="text-green-400 font-black tracking-wider">{{
-      boardId }}</span>
+        boardId }}</span>
       <button @click="clear">clear</button>
     </h1>
-    <RouterView></RouterView>
-    <div class="columns-wrapper">
-      <div class="columns-container">
-        <template v-for="column in columns" :key="column.name">
-          <Column v-bind="column" @task-dropped="onTaskDropped">
-            <Task @dragstart="onDragStart(task, $event)" :task="task" v-for="task in column.tasks" :key="task.id">
+    <div class="flex flex-grow justify-center overflow-hidden">
+        <!-- <section class="column flex flex-col first:rounded-tl-xl last:rounded-tr-xl">
+          <h2 class="text-gray-400 font-medium uppercase text-sm mb-4 flex justify-between">
+            Todo
+          </h2>
+          <ul class="flex-grow" ref="todoListRef">
+            <Task :task="task" v-for="task in todoTasks" :key="task.id">
             </Task>
-            <div class="flex mt-4 justify-center">
-              <button
-                class="rounded-full border-none w-10 h-10 grid place-content-center transition-colors text-gray-400 bg-slate-800 hover:bg-green-500 hover:text-black">
-                <Icon class="text-xl text-inherit" icon="mdi:plus" />
-              </button>
-            </div>
-          </Column>
-        </template>
-      </div>
+          </ul>
+        </section> -->
+        <Column name="Todo" :tasks="todoTasks" :type="TaskStatus.Todo"></Column>
+
+        <section class="column flex flex-col first:rounded-tl-xl last:rounded-tr-xl">
+          <h2 class="text-gray-400 font-medium uppercase text-sm mb-4 flex justify-between">
+            In progress
+          </h2>
+          <ul class="flex-grow" ref="inProgressListRef">
+            <Task :task="task" v-for="task in inProgressTasks" :key="task.id">
+            </Task>
+          </ul>
+        </section>
+
+        <section class="column flex flex-col first:rounded-tl-xl last:rounded-tr-xl">
+          <h2 class="text-gray-400 font-medium uppercase text-sm mb-4 flex justify-between">
+            Done
+          </h2>
+          <ul class="flex-grow" ref="doneListRef">
+            <Task :task="task" v-for="task in doneTasks" :key="task.id">
+            </Task>
+          </ul>
+        </section>
     </div>
+    <RouterView></RouterView>
   </section>
 </template>
 
@@ -90,25 +114,18 @@ function onTaskDropped(taskId: string, status: TaskStatus) {
   border-bottom: 1.5px solid var(--color-border);
 }
 
-.columns-wrapper {
-  display: grid;
-  justify-content: center;
-  flex-grow: 1;
+.column {
+  padding: 1rem;
+  min-width: 0;
+  width: 40ch;
+  transition: background-color 0.2s ease;
 }
 
-.columns-container {
+.column ul {
+  padding: 0;
+  list-style: none;
   display: flex;
-  position: relative;
-  flex-direction: row;
-  overflow: hidden;
-}
-
-.divider {
-  width: 1.5px;
-  background-color: var(--color-border);
-}
-
-.divider:last-child {
-  display: none;
+  flex-direction: column;
+  gap: 1rem;
 }
 </style>
