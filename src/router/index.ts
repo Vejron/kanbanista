@@ -2,21 +2,24 @@ import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import BoardView from '../views/BoardView.vue'
 import TaskView from '../views/TaskView.vue'
+import CreateTaskView from '../views/CreateTaskView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
+   
     {
       path: '/',
-      name: 'home',
-      component: HomeView
-    },
-    {
-      path: '/board/:boardId',
       name: 'board',
       props: true,
       component: BoardView,
       children: [
+        {
+          path: 'create',
+          props: true,
+          name: 'create',
+          component: CreateTaskView
+        },
         {
           path: ':taskId',
           props: true,

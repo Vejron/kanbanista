@@ -1,33 +1,62 @@
 import mqtt, { type MqttClient } from "mqtt"; // import namespace "mqtt"
-import { ref, watch } from "vue";
-import { tasks as initialTasks } from "./fake";
-import type { ITask } from "@/types";
+import { ref } from "vue";
+import { tasksByType } from "./fake";
+import { type ITask, TaskStatus } from "@/types";
 import { useDebounceFn } from "@vueuse/core";
 
 let client: MqttClient
 const topic = "totally_unique_id_123454321/board";
-const tasks = ref<ITask[]>([]);
+
+
+const done = ref<ITask[]>([]);
+const inProgress = ref<ITask[]>([]);
+const todo = ref<ITask[]>([]);
 
 const debouncedUpdate = useDebounceFn(() => {
   // do something
   console.log('debouncedFn')
-  if(client && client.connected) {
-    client.publish(topic, JSON.stringify(tasks.value), { retain: true });
+  const tasks = {
+    [TaskStatus.Todo]: todo.value,
+    [TaskStatus.InProgress]: inProgress.value,
+    [TaskStatus.Done]: done.value,
   }
-}, 1000)
+  if(client && client.connected) {
+    client.publish(topic, JSON.stringify(tasks), { retain: true });
+  }
+}, 600)
+
+function updateAllNow() {
+  const tasks = {
+    [TaskStatus.Todo]: todo.value,
+    [TaskStatus.InProgress]: inProgress.value,
+    [TaskStatus.Done]: done.value,
+  }
+  if(client && client.connected) {
+    client.publish(topic, JSON.stringify(tasks), { retain: true });
+  }
+}
+
+function update(tasks: ITask[]) {
+  console.log('Updating tasks: ', tasks)
+  if(client && client.connected) {
+    client.publish(topic, JSON.stringify(tasks), { retain: true });
+  }
+}
+
+function clear() {
+  if(client && client.connected) {
+    client.publish(topic, JSON.stringify(tasksByType), { retain: true });
+  }
+}
+
+function taskById(id: string) {
+  return [...todo.value, ...inProgress.value, ...done.value].find(task => task.id === id)
+}
 
 export function useMqtt(url?: string) {
 
-  function update(tasks: ITask[]) {
-    if(client && client.connected) {
-      client.publish(topic, JSON.stringify(tasks), { retain: true });
-    }
-  }
-
-  function clear() {
-    if(client && client.connected) {
-      client.publish(topic, JSON.stringify(initialTasks), { retain: true });
-    }
+  function uuid() {
+    return Math.random().toString(36).substring(2) + Date.now().toString(36);
   }
 
   if (!client && url) {
@@ -42,20 +71,22 @@ export function useMqtt(url?: string) {
       })
     })
     
-    client.on("message", (topic, _message) => {
-      // message is Buffer
-      console.log('Received message:')
+    client.on("message", (topic, buffer) => {
+      
 
       try {
-        const _tasks = JSON.parse(_message.toString());
-        console.log(_tasks);
-        tasks.value = _tasks;
-
+        const _tasks = JSON.parse(buffer.toString());
+        console.log('Received tasks: ', _tasks)
+        
+        // update reactive values
+        todo.value = _tasks[TaskStatus.Todo]
+        inProgress.value = _tasks[TaskStatus.InProgress]
+        done.value = _tasks[TaskStatus.Done]
       }
       catch (e) {
         console.error('Error parsing message, probably not valid JSON')
         // replace with fake initial tasks
-        client.publish(topic, JSON.stringify(initialTasks), { retain: true });
+        client.publish(topic, JSON.stringify(tasksByType), { retain: true });
       }
 
       //client.end();
@@ -64,8 +95,15 @@ export function useMqtt(url?: string) {
   }
 
   return {
-    tasks,
+    [TaskStatus.Todo]: todo,
+    [TaskStatus.InProgress]: inProgress,
+    [TaskStatus.Done]: done,
+    todo,
+    inProgress,
+    done,
+    taskById,
     update,
+    updateAllNow,
     clear,
     debouncedUpdate
   }

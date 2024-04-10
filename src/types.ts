@@ -1,5 +1,6 @@
 export interface ITask {
   id: string
+  key?: string
   created: string
   title: string
   priority: number

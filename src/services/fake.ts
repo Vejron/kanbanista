@@ -11,15 +11,6 @@ export const tasks: ITask[] = [
     description: `# Setup \n- Clone the tutorial repository from GitHub \n- Install the dependencies using npm or yarn \n- Run the development server using npm or yarn \n- Open the project in your browser and verify that it's running correctly`,
   },
   {
-    id: '2',
-    created: '2024-01-01T12:00:00Z',
-    title: 'Implement task board UI',
-    status: TaskStatus.Todo,
-    priority: 3,
-    summary: 'Implement the task board UI using Vue',
-    description: 'Implement the task board UI using Vue. The UI should allow users to view tasks in different statuses, add new tasks, and update the status of tasks.',
-  },
-  {
     id: '3',
     created: '2024-02-01T12:00:00Z',
     title: 'Add a delete task feature',
@@ -28,7 +19,22 @@ export const tasks: ITask[] = [
     summary: 'Add a delete task feature to the task board UI',
     description: 'Add a delete task feature to the task board UI. The feature should allow users to delete tasks from the task board.',
   },
+  {
+    id: '2',
+    created: '2024-01-01T12:00:00Z',
+    title: 'Implement task board UI',
+    status: TaskStatus.Done,
+    priority: 3,
+    summary: 'Implement the task board UI using Vue',
+    description: 'Implement the task board UI using Vue. The UI should allow users to view tasks in different statuses, add new tasks, and update the status of tasks.',
+  },
 ]
+
+export const tasksByType: Record<TaskStatus, ITask[]> = {
+  [TaskStatus.Todo]: tasks.filter(task => task.status === TaskStatus.Todo),
+  [TaskStatus.InProgress]: tasks.filter(task => task.status === TaskStatus.InProgress),
+  [TaskStatus.Done]: tasks.filter(task => task.status === TaskStatus.Done),
+}
 
 export const users: IUser[] = [
   { id: '1', name: 'John Doe' },

@@ -14,10 +14,8 @@ const avatar = `https://i.pravatar.cc/64?img=${props.task.id}`;
 </script>
 
 <template>
-  <li class="flex gap-2 bg-slate-800 rounded-md border-red border-1 border">
-    <div class="drag-handle w-10 flex-none cursor-grab dots-bg">
-
-    </div>
+  <li class="flex gap-4 bg-slate-800 rounded-md border-red border-1 border">
+    <div class="drag-handle w-10 flex-none cursor-grab dots-bg" />
     <div class="py-2.5 pr-4 min-w-0">
       <RouterLink class="block group hover:text-red" :to="{ name: 'task', params: { taskId: task.id } }">
       <h3 class="flex-between">
@@ -36,7 +34,7 @@ const avatar = `https://i.pravatar.cc/64?img=${props.task.id}`;
           {{ task.id }}
         </button>
         <PriorityToggler v-model="task.priority" />
-        <img :src="avatar" alt="avatar" class="w-6 h-6 rounded-full" />
+        <img :key="avatar" :src="avatar" alt="avatar" class="w-6 h-6 rounded-full" />
       </div>
     </div>
     </div>
