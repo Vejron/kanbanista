@@ -6,6 +6,7 @@ import { useMqtt } from '@/services/mqtt';
 import { animations, remapNodes } from "@formkit/drag-and-drop";
 import Task from '@/components/Task.vue'
 import { Icon } from '@iconify/vue';
+import { useRouter } from 'vue-router';
 
 
 const props = defineProps<{
@@ -13,10 +14,16 @@ const props = defineProps<{
   type: TaskStatus
 }>()
 
-const mqtt = useMqtt("ws://test.mosquitto.org:8080/mqtt")
+const router = useRouter()
 
+function createTask() {
+  router.push({ name: 'create-task', query: { type: props.type } })
+}
+
+const mqtt = useMqtt("ws://test.mosquitto.org:8080/mqtt")
 const tasks = toRef(mqtt, props.type)
 const listRef = ref()
+
 dragAndDrop({
   parent: listRef,
   values: tasks,
@@ -43,14 +50,14 @@ watch(tasks, () => {
   <section class="w-xs min-w-0 flex flex-col first:rounded-tl-xl last:rounded-tr-xl">
     <div class="flex justify-between">
       <h2 class="text-gray-400 font-medium uppercase text-sm mb-4">
-      {{ title }} {{ tasks.length }}
-    </h2>
-    <button
-    class="border-none bg-transparent w-6 h-6 text-xl rounded-full grid place-content-center hover:bg-white/20 transition-colors duration-200">
-    <Icon icon="mdi:chevron-double-down" class="text-white" />
-  </button>
+        {{ title }} {{ tasks.length }}
+      </h2>
+      <button @click="createTask"
+        class="border-none bg-transparent w-6 h-6 text-xl rounded-full grid place-content-center hover:bg-white/10 hover:active:bg-white/30 transition-colors duration-200">
+        <Icon icon="mdi:plus" class="text-white" />
+      </button>
     </div>
-  
+
     <ul class="flex-grow space-y-3" ref="listRef">
       <Task :task="task" v-for="task in tasks" :key="task.id">
       </Task>

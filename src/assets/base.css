@@ -57,38 +57,10 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-h1,
-h2,
-h3,
-h4 {
-  color: var(--color-heading);
+a {
+  text-decoration: none;
 }
 
 ul {
   padding: 0;
-}
-
-.truncate {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.min-w-0 {
-  min-width: 0;
-}
-
-.mt-2 {
-  margin-top: 0.5rem;
-}
-
-.flex-align-center {
-  display: flex;
-  align-items: center;
-}
-
-.flex-between {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
 }
