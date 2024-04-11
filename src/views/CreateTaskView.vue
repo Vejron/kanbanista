@@ -1,11 +1,9 @@
 <script setup lang="ts">
-import SnarkDown from '@/components/SnarkDown.vue';
 import { useMqtt } from '@/services/mqtt';
 import { type ITask, TaskStatus } from "@/types";
 import { computed, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { onClickOutside } from '@vueuse/core'
-import { create } from 'node_modules/axios/index.cjs';
 
 const props = defineProps<{
   type: TaskStatus
