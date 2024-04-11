@@ -15,20 +15,9 @@ const target = ref<HTMLElement>()
 
 onClickOutside(target, event => router.push({ name: 'board' }))
 
-const { taskById, debouncedUpdate } = useMqtt()
+const { taskById } = useMqtt()
 
 const task = computed(() => taskById(props.taskId))
-
-function update(what: 'title' | 'description', value: string) {
-  // it would have been nice to use v-model two way binding here but it doesn't work with the reactive mqtt backend
-  // as it causes an infinite loop of updates
-
-  // update the correct field of the task
-  if (task.value) {
-    task.value[what] = value
-  }
-  debouncedUpdate()
-}
 
 function deleteTask(task) {
   if (task) {
@@ -45,17 +34,14 @@ function deleteTask(task) {
       <div v-if="task" class="m-auto max-w-xl space-y-4">
         <div>
           <label class="block font-semibold mb-2" for="id-title">Title</label>
-          <input class="text-field" :value="task.title" @input="update('title', $event?.target?.value)" type="text"
-            id="id-title">
+          <input class="text-field" v-model="task.title" type="text" id="id-title">
         </div>
 
         <SnarkDown class="p-4 rounded-lg" :md="task?.description ?? ''" />
         <div v-if="task?.description">
           <label class="block font-semibold mb-2" for="id-description">Edit description</label>
 
-          <textarea class="text-field" :value="task.description" @input="update('description', $event?.target?.value)"
-            id="id-description" rows="10">
-        </textarea>
+          <textarea class="text-field" v-model="task.description" id="id-description" rows="10" />
         </div>
       </div>
       <div class="flex justify-end gap-4 py-4">

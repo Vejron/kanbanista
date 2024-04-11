@@ -12,8 +12,6 @@ import { computed } from 'vue';
  * causing the parent element to also be clicked.
  */
 
-const { debouncedUpdate } = useMqtt()
-
 const props = defineProps<{
   modelValue: number
 }>()
@@ -33,7 +31,6 @@ const priority = computed(() => levels[props.modelValue])
 function updatePriority() {
   const next = (props.modelValue + 1) % levels.length
   emit('update:modelValue', next)
-  debouncedUpdate()
 }
 </script>
 

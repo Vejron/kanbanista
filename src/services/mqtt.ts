@@ -2,7 +2,7 @@ import mqtt, { type MqttClient } from "mqtt"; // import namespace "mqtt"
 import { ref } from "vue";
 import { tasksByType } from "./fake";
 import { type ITask, TaskStatus } from "@/types";
-import { useDebounceFn } from "@vueuse/core";
+import { useDebounceFn, watchDebounced } from "@vueuse/core";
 
 let client: MqttClient
 const topic = "totally_unique_id_123454321/board";
@@ -14,7 +14,7 @@ const todo = ref<ITask[]>([]);
 
 const debouncedUpdate = useDebounceFn(() => {
   // do something
-  console.log('debouncedFn')
+  console.log('debounced update')
   const tasks = {
     [TaskStatus.Todo]: todo.value,
     [TaskStatus.InProgress]: inProgress.value,
@@ -72,6 +72,12 @@ function taskById(id: string) {
 export function useMqtt(url?: string) {
 
   if (!client && url) {
+
+    //watch all tasks and update mqtt
+    watchDebounced([todo, inProgress, done], () => {
+      debouncedUpdate()
+    }, { debounce: 500, deep: true })
+
     client = mqtt.connect(url);
 
     client.on("connect", () => {
@@ -84,16 +90,23 @@ export function useMqtt(url?: string) {
     })
     
     client.on("message", (topic, buffer) => {
-      
-
       try {
         const _tasks = JSON.parse(buffer.toString());
         console.log('Received tasks: ', _tasks)
         
-        // update reactive values
-        todo.value = _tasks[TaskStatus.Todo]
-        inProgress.value = _tasks[TaskStatus.InProgress]
-        done.value = _tasks[TaskStatus.Done]
+        // update reactive values only if they are different
+        if(JSON.stringify(_tasks[TaskStatus.Todo]) !== JSON.stringify(todo.value)) {
+          todo.value = _tasks[TaskStatus.Todo]
+        }
+        if(JSON.stringify(_tasks[TaskStatus.InProgress]) !== JSON.stringify(inProgress.value)) {
+          inProgress.value = _tasks[TaskStatus.InProgress]
+        }
+        if(JSON.stringify(_tasks[TaskStatus.Done]) !== JSON.stringify(done.value)) {
+          done.value = _tasks[TaskStatus.Done]
+        }
+        //todo.value = _tasks[TaskStatus.Todo]
+        //inProgress.value = _tasks[TaskStatus.InProgress]
+        //done.value = _tasks[TaskStatus.Done]
       }
       catch (e) {
         console.error('Error parsing message, probably not valid JSON')
