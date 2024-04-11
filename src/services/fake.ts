@@ -3,7 +3,7 @@ import { type ITask, TaskStatus, type IUser } from '../types'
 export const tasks: ITask[] = [
   {
     id: '1',
-    created: '2021-08-01T12:00:00Z',
+    created: deductDays(new Date(), 1).toISOString(),
     title: 'Setup development environment and scaffold the project',
     status: TaskStatus.Todo,
     priority: 1,
@@ -12,7 +12,7 @@ export const tasks: ITask[] = [
   },
   {
     id: '3',
-    created: '2024-02-01T12:00:00Z',
+    created: deductDays(new Date(), 2).toISOString(),
     title: 'Implement routing and navigation with vue-router',
     status: TaskStatus.InProgress,
     priority: 2,
@@ -21,7 +21,7 @@ export const tasks: ITask[] = [
   },
   {
     id: '2',
-    created: '2024-01-01T12:00:00Z',
+    created: deductDays(new Date(), 10).toISOString(),
     title: 'Styling the task board UI with Tailwind / UnoCSS ',
     status: TaskStatus.Done,
     priority: 3,
@@ -30,7 +30,7 @@ export const tasks: ITask[] = [
   },
   {
     id: '4',
-    created: '2024-03-01T12:00:00Z',
+    created: deductDays(new Date(), 100).toISOString(),
     title: 'Implement a task detail view',
     status: TaskStatus.Todo,
     priority: 1,
@@ -56,3 +56,9 @@ export const users: IUser[] = [
   { id: '9', name: 'John Davis' },
   { id: '10', name: 'Jane Davis' },
 ]
+
+function deductDays(date: Date, days: number): Date {
+  const result = new Date(date);
+  result.setDate(result.getDate() - days);
+  return result;
+}

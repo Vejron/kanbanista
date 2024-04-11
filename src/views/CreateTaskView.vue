@@ -41,15 +41,15 @@ function addTask(task: ITask) {
 <template>
   <div class="fixed inset-0 bg-black/50 z-50 grid place-content-center">
     <div class="w-screen px-4 max-w-3xl">
-      <div ref="target" class="bg-slate-100 text-gray-600 rounded-xl px-6 pt-4">
+      <div ref="target" class="bg-slate-900 text-gray-300 rounded-xl px-6 pt-4">
         <h2 class="text-2xl font-bold mb-4">Create new <i class="italic text-purple-700">{{ what }}</i> task</h2>
         <div class="space-y-4">
           <div>
-            <label class="block text-sm font-semibold mb-1" for="id-title">Title</label>
+            <label class="text-gray-400 block text-sm font-semibold mb-1" for="id-title">Title</label>
             <input class="text-field" v-model="task.title" type="text" id="id-title">
           </div>
           <div>
-            <label class="block text-sm font-semibold mb-1" for="id-description">Description</label>
+            <label class="text-gray-400 block text-sm font-semibold mb-1" for="id-description">Description</label>
             <textarea class="text-field" v-model="task.description" id="id-description" rows="10">
         </textarea>
           </div>
@@ -72,6 +72,6 @@ function addTask(task: ITask) {
 
 <style lang="css" scoped>
 .text-field {
-  @apply font-mono border border-solid focus:outline-purple text-base rounded-lg block w-full p-2.5 bg-white border-gray-700 placeholder-gray-400 text-gray-700;
+  @apply font-mono  focus:outline-purple text-base rounded-lg block w-full px-4 py-3 bg-slate-700 border-gray-700 placeholder-gray-400 text-gray-200;
 }
 </style>

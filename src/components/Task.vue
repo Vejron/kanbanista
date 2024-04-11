@@ -9,8 +9,12 @@ const props = defineProps<{
 }>()
 
 const createdAt = useTimeAgo(props.task.created);
-const avatar = `https://i.pravatar.cc/64?img=${props.task.id}`;
+const avatar = `https://i.pravatar.cc/64?img=${uuidToNumber(props.task.id)}`;
 
+function uuidToNumber(uuid: string) {
+  //aggregate the char codes of the uuid and return as a number between 0 and 50
+  return uuid.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0) % 50;
+}
 </script>
 
 <template>
@@ -30,11 +34,11 @@ const avatar = `https://i.pravatar.cc/64?img=${props.task.id}`;
         </div>
        
         <div class="flex justify-between items-center mt-2">
-          <time class="truncate text-gray-400">{{ createdAt }}</time>
+          <time class="first-letter:capitalize truncate text-gray-400">{{ createdAt }}</time>
           <div class="flex gap-1">
             <button
               class="border-none bg-slate-700 text-gray-400 w-6 h-6 text-sm rounded-full grid place-content-center hover:bg-black/20 transition-colors duration-200">
-              {{ task.id }}
+              {{ uuidToNumber(task.id) }}
             </button>
             <PriorityToggler v-model="task.priority" />
             <img :key="avatar" :src="avatar" alt="avatar" class="w-6 h-6 rounded-full" />
