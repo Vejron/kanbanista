@@ -15,6 +15,32 @@ function uuidToNumber(uuid: string) {
   //aggregate the char codes of the uuid and return as a number between 0 and 50
   return uuid.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0) % 50;
 }
+
+
+const ageColorMap = [
+  'text-blue-400',
+  'text-green-300',
+  'text-yellow-300',
+  'text-orange-400',
+  'text-red-500',
+];
+
+function ageToColor(from: string | Date, to: string | Date, maxDaysDuration = 14) {
+  // Convert dates to milliseconds for easier calculation
+  const fromMs = new Date(from).getTime();
+  const toMs = new Date(to).getTime();
+
+  // Calculate the difference between the dates in days
+  const diffInDays = (toMs - fromMs) / (1000 * 60 * 60 * 24);
+
+  // Calculate the score
+  let score = (diffInDays / maxDaysDuration) * 4;
+
+  // Ensure the score is within the range 0-4
+  score = Math.floor(Math.min(4, Math.max(0, score)));
+  return ageColorMap[score];
+}
+
 </script>
 
 <template>
@@ -27,18 +53,21 @@ function uuidToNumber(uuid: string) {
           {{ task.title ?? 'No title' }}
         </h3>
 
-        <div class="overflow-hidden max-h-30">
-          <div class="w-[220%] origin-top-left transform scale-40 min-w-0">
+        <div class="overflow-hidden max-h-30 relative">
+          <div class="origin-top-left transform text-[0.5rem] min-w-0">
             <SnarkDown class="rounded-lg" :md="task?.description" />
+          </div>
+          <div class="scrim absolute top-0 w-full h-full">
+          </div>
         </div>
-        </div>
-       
+
         <div class="flex justify-between items-center mt-2">
-          <time class="first-letter:capitalize truncate text-gray-400">{{ createdAt }}</time>
+          <time :class="ageToColor(task.created, new Date())" class="first-letter:capitalize truncate">
+            {{ createdAt }}</time>
           <div class="flex gap-1">
             <button
               class="border-none bg-slate-700 text-gray-400 w-6 h-6 text-sm rounded-full grid place-content-center hover:bg-black/20 transition-colors duration-200">
-              {{ uuidToNumber(task.id) }}
+              2
             </button>
             <PriorityToggler v-model="task.priority" />
             <img :key="avatar" :src="avatar" alt="avatar" class="w-6 h-6 rounded-full" />
@@ -76,5 +105,9 @@ function uuidToNumber(uuid: string) {
   display: -webkit-box;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
+}
+
+.scrim {
+  background-image: linear-gradient(transparent 5.5rem, rgb(30 41 59));
 }
 </style>

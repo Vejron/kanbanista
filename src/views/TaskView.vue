@@ -29,6 +29,14 @@ function update(what: 'title' | 'description', value: string) {
   }
   debouncedUpdate()
 }
+
+function deleteTask(task) {
+  if (task) {
+    // remove the task and navigate back to the board
+    //task.remove()
+    router.push({ name: 'board' })
+  }
+}
 </script>
 
 <template>
@@ -49,6 +57,16 @@ function update(what: 'title' | 'description', value: string) {
             id="id-description" rows="10">
         </textarea>
         </div>
+      </div>
+      <div class="flex justify-end gap-4 py-4">
+        <button type="button" @click="deleteTask(task)"
+          class="text-white outline-none border-none bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl font-medium rounded-lg text-sm px-5 py-2.5 text-center">
+          Delete
+        </button>
+        <button type="button" @click="router.push({ name: 'board' })"
+          class="text-white outline-none border-none bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl font-medium rounded-lg text-sm px-5 py-2.5 text-center">
+          Close
+        </button>
       </div>
     </div>
   </div>

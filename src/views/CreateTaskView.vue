@@ -32,7 +32,9 @@ const task = ref<ITask>({
 })
 
 function addTask(task: ITask) {
-  add(task)
+  // add the task and modify the status to the current column
+  add({ ...task, status: props.type, created: new Date().toISOString() })
+  // then close the "modal" by navigating back to the board
   router.push({ name: 'board' })
 }
 
@@ -63,7 +65,6 @@ function addTask(task: ITask) {
             class="text-white outline-none border-none bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl font-medium rounded-lg text-sm px-5 py-2.5 text-center">
             Cancel
           </button>
-
         </div>
       </div>
     </div>
@@ -72,6 +73,6 @@ function addTask(task: ITask) {
 
 <style lang="css" scoped>
 .text-field {
-  @apply font-mono  focus:outline-purple text-base rounded-lg block w-full px-4 py-3 bg-slate-700 border-gray-700 placeholder-gray-400 text-gray-200;
+  @apply font-mono focus:outline-purple text-base rounded-lg block w-full px-4 py-3 bg-slate-700 border-gray-700 placeholder-gray-400 text-gray-200;
 }
 </style>
