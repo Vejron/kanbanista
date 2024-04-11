@@ -28,7 +28,7 @@ function uuidToNumber(uuid: string) {
         </h3>
 
         <div class="overflow-hidden max-h-30">
-          <div class="w-full origin-top-left transform scale-40 min-w-0">
+          <div class="w-[220%] origin-top-left transform scale-40 min-w-0">
             <SnarkDown class="rounded-lg" :md="task?.description" />
         </div>
         </div>
