@@ -5,12 +5,24 @@ import { type ITask, TaskStatus } from "@/types";
 import { computed, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { onClickOutside } from '@vueuse/core'
+import { create } from 'node_modules/axios/index.cjs';
+
+const props = defineProps<{
+  type: TaskStatus
+}>()
 
 const router = useRouter()
 const target = ref<HTMLElement>()
 onClickOutside(target, event => router.push({ name: 'board' }))
 
-const { debouncedUpdate } = useMqtt()
+const { add } = useMqtt()
+
+const what = computed(() =>
+  props.type == TaskStatus.Todo ? 'todo' :
+    props.type == TaskStatus.InProgress ? 'in progress' :
+      'done'
+)
+
 const task = ref<ITask>({
   title: '',
   description: '',
@@ -21,29 +33,40 @@ const task = ref<ITask>({
   created: new Date().toISOString(),
 })
 
+function addTask(task: ITask) {
+  add(task)
+  router.push({ name: 'board' })
+}
+
 </script>
 
 <template>
   <div class="fixed inset-0 bg-black/50 z-50 grid place-content-center">
-    <div ref="target" class="bg-slate-100 text-gray-700 rounded-xl w-screen max-w-[calc(100vw-4rem)] m-4  px-6 pt-4">
-      <h2 class="text-2xl font-bold mb-4">Create a new task</h2>
-      <div class="space-y-4">
-        <div>
-          <label class="block text-sm font-semibold mb-1" for="id-title">Title</label>
-          <input class="text-field" v-model="task.title" type="text" id="id-title">
-        </div>
-        <div>
-          <label class="block text-sm font-semibold mb-1" for="id-description">Description</label>
-          <textarea class="text-field" v-model="task.description" id="id-description" rows="10">
+    <div class="w-screen px-4 max-w-3xl">
+      <div ref="target" class="bg-slate-100 text-gray-600 rounded-xl px-6 pt-4">
+        <h2 class="text-2xl font-bold mb-4">Create new <i class="italic text-purple-700">{{ what }}</i> task</h2>
+        <div class="space-y-4">
+          <div>
+            <label class="block text-sm font-semibold mb-1" for="id-title">Title</label>
+            <input class="text-field" v-model="task.title" type="text" id="id-title">
+          </div>
+          <div>
+            <label class="block text-sm font-semibold mb-1" for="id-description">Description</label>
+            <textarea class="text-field" v-model="task.description" id="id-description" rows="10">
         </textarea>
+          </div>
         </div>
-      </div>
-      <div class="flex justify-end gap-4 py-4">
-        <button type="button"
-          class="text-white outline-none border-none bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl font-medium rounded-lg text-sm px-5 py-2.5 text-center">
-          Cancel
-        </button>
+        <div class="flex justify-end gap-4 py-4">
+          <button type="button" @click="addTask(task)"
+            class="text-white outline-none border-none bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl font-medium rounded-lg text-sm px-5 py-2.5 text-center">
+            Add task
+          </button>
+          <button type="button" @click="router.push({ name: 'board' })"
+            class="text-white outline-none border-none bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl font-medium rounded-lg text-sm px-5 py-2.5 text-center">
+            Cancel
+          </button>
 
+        </div>
       </div>
     </div>
   </div>

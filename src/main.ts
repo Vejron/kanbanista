@@ -1,5 +1,5 @@
 import './assets/main.css'
-import 'github-markdown-css/github-markdown-dark.css'
+import '@unocss/reset/tailwind.css'
 import 'virtual:uno.css'
 
 import { createApp } from 'vue'

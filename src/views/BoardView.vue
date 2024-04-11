@@ -3,7 +3,7 @@ import { useMqtt } from '../services/mqtt'
 import { TaskStatus } from '../types'
 import Column from '@/components/Column.vue'
 
-const { update, clear } = useMqtt("ws://test.mosquitto.org:8080/mqtt")
+const { clear } = useMqtt("wss://test.mosquitto.org:8081/mqtt")
 const columns = [
   { title: "Todo", type: TaskStatus.Todo },
   { title: "In progress", type: TaskStatus.InProgress },

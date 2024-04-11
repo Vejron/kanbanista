@@ -55,7 +55,7 @@ function update(what: 'title' | 'description', value: string) {
 </template>
 
 <style lang="css" scoped>
-  .text-field {
-    @apply font-mono border-solid text-base rounded-lg block w-full p-2.5 bg-slate-900 border-gray-700 placeholder-gray-400 text-white;
-  }
+.text-field {
+  @apply font-mono border-solid text-base rounded-lg block w-full p-2.5 bg-slate-900 border-gray-700 placeholder-gray-400 text-white;
+}
 </style>

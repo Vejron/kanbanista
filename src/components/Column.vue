@@ -17,10 +17,10 @@ const props = defineProps<{
 const router = useRouter()
 
 function createTask() {
-  router.push({ name: 'create-task', query: { type: props.type } })
+  router.push({ name: 'create-task', params: { type: props.type } })
 }
 
-const mqtt = useMqtt("ws://test.mosquitto.org:8080/mqtt")
+const mqtt = useMqtt()
 const tasks = toRef(mqtt, props.type)
 const listRef = ref()
 
@@ -28,7 +28,9 @@ dragAndDrop({
   parent: listRef,
   values: tasks,
   group: 'tasks',
-  dragHandle: ".drag-handle",
+  //dragHandle: ".drag-handle",
+  draggingClass: "dragging",
+  //dropZoneClass: "dragging",
   //plugins: [animations()],
   handleEnd: (data) => {
     console.log('dragged-end', data)
@@ -64,3 +66,10 @@ watch(tasks, () => {
     </ul>
   </section>
 </template>
+
+<style>
+.dragging {
+  background-color: red !important;
+
+}
+</style>

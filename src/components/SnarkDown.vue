@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import snark from 'snarkdown'
-import { onBeforeMount } from 'vue';
 
 const props = defineProps<{
   md?: string
@@ -9,5 +8,5 @@ const props = defineProps<{
 </script>
 
 <template>
-  <div class="markdown-body" v-html="snark(md ?? '')" />
+  <div class="prose prose-white [&>*:first-child]:mt-0" v-html="snark(md ?? '')" />
 </template>

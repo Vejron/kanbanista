@@ -14,7 +14,7 @@ const router = createRouter({
       component: BoardView,
       children: [
         {
-          path: 'create',
+          path: 'create/:type',
           props: true,
           name: 'create-task',
           component: CreateTaskView

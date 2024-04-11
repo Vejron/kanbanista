@@ -25,6 +25,10 @@ const debouncedUpdate = useDebounceFn(() => {
   }
 }, 600)
 
+function uuid() {
+  return Math.random().toString(36).substring(2) + Date.now().toString(36);
+}
+
 function updateAllNow() {
   const tasks = {
     [TaskStatus.Todo]: todo.value,
@@ -43,6 +47,18 @@ function update(tasks: ITask[]) {
   }
 }
 
+function add(task: ITask) {
+  const tasks = {
+    [TaskStatus.Todo]: todo.value,
+    [TaskStatus.InProgress]: inProgress.value,
+    [TaskStatus.Done]: done.value,
+  }
+  tasks[task.status].push({...task, id: uuid()});
+  if(client && client.connected) {
+    client.publish(topic, JSON.stringify(tasks), { retain: true });
+  }
+}
+
 function clear() {
   if(client && client.connected) {
     client.publish(topic, JSON.stringify(tasksByType), { retain: true });
@@ -54,10 +70,6 @@ function taskById(id: string) {
 }
 
 export function useMqtt(url?: string) {
-
-  function uuid() {
-    return Math.random().toString(36).substring(2) + Date.now().toString(36);
-  }
 
   if (!client && url) {
     client = mqtt.connect(url);
@@ -102,6 +114,7 @@ export function useMqtt(url?: string) {
     inProgress,
     done,
     taskById,
+    add,
     update,
     updateAllNow,
     clear,

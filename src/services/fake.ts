@@ -4,7 +4,7 @@ export const tasks: ITask[] = [
   {
     id: '1',
     created: '2021-08-01T12:00:00Z',
-    title: 'Setup',
+    title: 'Setup development environment and scaffold the project',
     status: TaskStatus.Todo,
     priority: 1,
     summary: 'Clone the tutorial repository from GitHub and install the dependencies',
@@ -13,7 +13,7 @@ export const tasks: ITask[] = [
   {
     id: '3',
     created: '2024-02-01T12:00:00Z',
-    title: 'Add a delete task feature',
+    title: 'Implement routing and navigation with vue-router',
     status: TaskStatus.InProgress,
     priority: 2,
     summary: 'Add a delete task feature to the task board UI',
@@ -22,12 +22,20 @@ export const tasks: ITask[] = [
   {
     id: '2',
     created: '2024-01-01T12:00:00Z',
-    title: 'Implement task board UI',
+    title: 'Styling the task board UI with Tailwind / UnoCSS ',
     status: TaskStatus.Done,
     priority: 3,
     summary: 'Implement the task board UI using Vue',
     description: 'Implement the task board UI using Vue. The UI should allow users to view tasks in different statuses, add new tasks, and update the status of tasks.',
   },
+  {
+    id: '4',
+    created: '2024-03-01T12:00:00Z',
+    title: 'Implement a task detail view',
+    status: TaskStatus.Todo,
+    priority: 1,
+    summary: 'Add a task detail view to the task board UI',
+  }
 ]
 
 export const tasksByType: Record<TaskStatus, ITask[]> = {
