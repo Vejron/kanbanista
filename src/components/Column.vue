@@ -3,7 +3,7 @@ import { ref, toRef, watch } from 'vue'
 import { TaskStatus } from '@/types'
 import { dragAndDrop } from "@formkit/drag-and-drop/vue";
 import { useMqtt } from '@/services/mqtt';
-import { animations, remapNodes } from "@formkit/drag-and-drop";
+import { animations, remapNodes, handleEnd } from "@formkit/drag-and-drop";
 import Task from '@/components/Task.vue'
 import { Icon } from '@iconify/vue';
 import { useRouter } from 'vue-router';
@@ -22,19 +22,21 @@ function createTask() {
 
 const mqtt = useMqtt()
 const tasks = toRef(mqtt, props.type)
-const listRef = ref()
 
+const listRef = ref()
 dragAndDrop({
   parent: listRef,
   values: tasks,
   group: 'tasks',
-  //dragHandle: ".drag-handle",
-  draggingClass: "dragging",
-  //dropZoneClass: "dragging",
-  //plugins: [animations()],
-  handleEnd: (data) => {
-    console.log('dragged-end', data)
-    mqtt.debouncedUpdate()
+  dragHandle: ".drag-handle",
+  dropZoneClass: "dragging",
+  plugins: [animations()],
+
+  // override the default handleEnd function to update the tasks
+  // on the broker only after the drag and drop operation is completed
+  handleEnd(e) {
+    mqtt.update()
+    handleEnd(e)
   },
 })
 
@@ -42,7 +44,7 @@ watch(tasks, () => {
   // WORKAROUND: as the tasks change, we need to remap the nodes because the dragAndDrop library doesn't
   // update the nodes as it should
   setTimeout(() => {
-    remapNodes(listRef.value)
+    // remapNodes(listRef.value)
   }, 0)
 })
 
@@ -69,7 +71,7 @@ watch(tasks, () => {
 
 <style>
 .dragging {
-  background-color: red !important;
+  @apply bg-orange-600;
 
 }
 </style>

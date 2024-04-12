@@ -1,15 +1,12 @@
-<template>
-  <div class="about">
-    <h1>This is an about page</h1>
-  </div>
-</template>
+<script setup lang="ts">
+import Setup from '@/tutorial/setup.md'
+</script>
 
-<style>
-@media (min-width: 1024px) {
-  .about {
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-  }
-}
-</style>
+<template>
+  <section class="w-full flex justify-center">
+    <div class="prose prose-light ">
+      <Setup />
+    </div>
+
+  </section>
+</template>

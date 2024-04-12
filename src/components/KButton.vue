@@ -12,17 +12,17 @@ const props = withDefaults(defineProps<{
 })
 
 const primaryColors = 'bg-purple-600 text-white'
-const warningColors = 'bg-red-600 text-yellow-200'
+const warningColors = 'bg-orange-600 text-yellow-100'
 
 </script>
 
 <template>
   <button
     class="relative border-none shadow-none px-4 py-2 text-base font-semibold rounded-lg flex items-center justify-center"
-    :class="[color === 'primary' ? primaryColors : warningColors, variant === 'filled' ? '' : '']"
-  >
+    :class="[color === 'primary' ? primaryColors : warningColors, variant === 'filled' ? '' : '']">
     <Icon v-if="icon" :icon="icon" class="mr-2" />
     <slot />
-    <span class="absolute transition-opacity duration-300 hover:opacity-15 opacity-0  rounded-lg inset-0 bg-black"></span>
+    <span
+      class="absolute transition-opacity duration-300 hover:opacity-15 opacity-0  rounded-lg inset-0 bg-black"></span>
   </button>
 </template>

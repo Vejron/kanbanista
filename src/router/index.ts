@@ -1,7 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import BoardView from '../views/BoardView.vue'
 import TaskView from '../views/TaskView.vue'
-import CreateTaskView from '../views/CreateTaskView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -17,7 +16,7 @@ const router = createRouter({
           path: 'create/:type',
           props: true,
           name: 'create-task',
-          component: CreateTaskView
+          component: TaskView
         },
         {
           path: 'edit/:taskId',
