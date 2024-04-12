@@ -68,8 +68,8 @@ function addTask(task: ITask) {
             <select
               class="text-field focus:ring-purple focus:ring-2"
               v-model="newTask.priority">
-              <option disabled>Please select one</option>
-              <option v-for="option in priorityOptions" :key="option.value" :value="option.value">
+              <option class="b-slate-800" disabled>Please select one</option>
+              <option class="bg-slate-800 py-2 leading-19" v-for="option in priorityOptions" :key="option.value" :value="option.value">
                 {{ option.label }}
               </option>
             </select>
@@ -81,19 +81,19 @@ function addTask(task: ITask) {
           Description <span>Markdown preview</span>
         </label>
         <div
-          class="relative focus-within:ring-purple focus-within:ring-2 overflow-hidden w-full h-[40vh] grid grid-cols-20 rounded-lg">
-          <textarea class="text-field !h-[40vh] !rounded-none resize-none col-span-15" v-model="newTask.description"
+          class="relative border border-gray-400 focus-within:ring-purple focus-within:ring-2 overflow-hidden w-full h-[40vh] grid grid-cols-20 rounded-lg">
+          <textarea class="text-field border-none !h-[40vh] !rounded-none resize-none col-span-15" v-model="newTask.description"
             id="id-description" />
           <SnarkDown class="p-4 h-[40vh] text-[.5em] overflow-auto col-span-5 bg-slate-800 border-l-2 border-slate-700"
             :md="newTask?.description" />
         </div>
 
 
-        <div class="flex justify-end gap-4 py-4">
+        <div class="flex justify-end gap-4 py-6">
           <KButton icon="mdi:check" @click="addTask(newTask)">
             Add task
           </KButton>
-          <KButton icon="mdi:close" @click="router.push({ name: 'board' })">
+          <KButton color="warning" icon="mdi:close" @click="router.push({ name: 'board' })">
             Cancel
           </KButton>
         </div>
@@ -104,6 +104,6 @@ function addTask(task: ITask) {
 
 <style lang="css" scoped>
 .text-field {
-  @apply font-mono h-12 border-none outline-none rounded-lg block w-full px-4 py-3 bg-slate-800 placeholder-gray-400 text-gray-200;
+  @apply font-mono h-12 border border-gray-400 outline-none rounded-lg block w-full px-4 py-3 bg-transparent placeholder-gray-400 text-gray-200;
 }
 </style>
