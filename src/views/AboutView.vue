@@ -4,7 +4,7 @@ import Setup from '@/tutorial/setup.md'
 
 <template>
   <section class="w-full flex justify-center">
-    <div class="prose prose-light ">
+    <div class="prose prose-light text-base ">
       <Setup />
     </div>
 
