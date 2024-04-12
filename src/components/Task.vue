@@ -99,14 +99,6 @@ function ageToColor(from: string | Date, to: string | Date, maxDaysDuration = 14
   opacity: 1;
 }
 
-.line-clamp-3 {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-}
-
 .scrim {
   background-image: linear-gradient(transparent 5.5rem, rgb(30 41 59));
 }
