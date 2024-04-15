@@ -22,6 +22,9 @@ const columns = [
       </transition>
     </router-view>
     
-    <button class="fixed bottom-6 right-6 bg-orange-500 hover:bg-purple-700 hover:text-white text-black transition-colors duration-300 font-semibold text-xs h-16 w-16 shadow-lg shadow-inset shadow-purple rounded-full" @click="clear">RESET</button>
+    <RouterLink to="/about" class="fixed bottom-6 left-6 bg-purple-700 hover:bg-purple-500 hover:text-black text-white transition-colors duration-300 font-semibold text-xs h-16 w-16 shadow-lg shadow-inset shadow-purple rounded-full grid place-content-center">
+      ABOUT
+    </RouterLink>
+    <button class="fixed bottom-6 right-6 bg-orange-500 hover:bg-purple-700 hover:text-white text-black transition-colors duration-300 font-semibold text-xs h-16 w-16 shadow-lg shadow-inset shadow-orange-800 rounded-full" @click="clear">RESET</button>
   </section>
 </template>

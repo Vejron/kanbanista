@@ -1,6 +1,6 @@
-# Part 2 - Building the Kanban Board
+# Part 2 - Styling with UnoCss
 
-Now that we have our project set up, we can start building the kanban board. In this part of the tutorial, we will create the basic structure of the board and add the ability to create new tasks.
+In this part of the tutorial, we will set up UnoCss in our project and start styling our kanban board. UnoCss is a utility-first CSS framework inspired by Tailwind CSS but faster and generally less hassle. UnoCss generates only the CSS that is actually used in the project. This makes it a great choice for Vue 3 projects as it allows us to use atomic classes without worrying about the final bundle size.
 
 ## Cleaning Up
 

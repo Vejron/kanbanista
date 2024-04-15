@@ -18,11 +18,11 @@ function uuidToNumber(uuid: string) {
 
 
 const ageColorMap = [
-  'text-blue-400',
-  'text-green-300',
-  'text-yellow-300',
-  'text-orange-400',
-  'text-red-500',
+  ['text-blue-400', 'bg-blue-500'],
+  ['text-green-300', 'bg-green-500'],
+  ['text-yellow-300', 'bg-yellow-500'],
+  ['text-orange-400', 'bg-orange-600'],
+  ['text-red-500', 'bg-red-600'],
 ];
 
 function ageToColor(from: string | Date, to: string | Date, maxDaysDuration = 14) {
@@ -45,7 +45,7 @@ function ageToColor(from: string | Date, to: string | Date, maxDaysDuration = 14
 
 <template>
   <li class="flex gap-4 bg-slate-800 rounded-md border-slate-800 hover:border-purple-500  border-2.5 transition-all">
-    <div class="drag-handle w-9 flex-none cursor-grab grab-bg" />
+    <div :class="ageToColor(task.created, new Date())[1]" class="w-1 rounded-l-md flex-none" />
     <RouterLink class="block w-full group" :to="{ name: 'task', params: { taskId: task.id } }">
       <div class="py-2.5 pr-4 min-w-0 w-full">
 
@@ -54,21 +54,17 @@ function ageToColor(from: string | Date, to: string | Date, maxDaysDuration = 14
         </h3>
 
         <div class="overflow-hidden max-h-30 relative">
-          <div class="origin-top-left transform text-[0.5rem] min-w-0">
-            <SnarkDown class="rounded-lg" :md="task?.description" />
+          <div class="origin-top-left transform text-[0.5rem] opacity-80 min-w-0">
+            <SnarkDown :md="task.description" />
           </div>
-          <div class="scrim absolute top-0 w-full h-full">
-          </div>
+          <div class="scrim absolute top-0 w-full h-full" />
         </div>
 
         <div class="flex justify-between items-center mt-2">
-          <time :class="ageToColor(task.created, new Date())" class="first-letter:capitalize truncate">
-            {{ createdAt }}</time>
-          <div class="flex gap-1">
-            <button
-              class="border-none bg-slate-700 text-gray-400 w-6 h-6 text-sm rounded-full grid place-content-center hover:bg-black/20 transition-colors duration-200">
-              2
-            </button>
+          <time :class="ageToColor(task.created, new Date())[0]" class="first-letter:capitalize truncate">
+            {{ createdAt }}
+          </time>
+          <div class="flex gap-2">
             <PriorityToggler v-model="task.priority" />
             <img :key="avatar" :src="avatar" alt="avatar" class="w-6 h-6 rounded-full" />
           </div>
@@ -79,27 +75,7 @@ function ageToColor(from: string | Date, to: string | Date, maxDaysDuration = 14
 </template>
 
 <style scoped>
-.grab-bg {
-  background-image: radial-gradient(circle, #0000005b 2px, transparent 2px);
-  background-size: 6px 6px;
-}
-
-.grab-bg::before {
-  content: '';
-  background-image: radial-gradient(circle, rgb(168 85 247) 2px, transparent 2px);
-  background-size: 6px 6px;
-  transition: all .2s;
-  display: block;
-  width: 100%;
-  height: 100%;
-  opacity: 0;
-}
-
-.grab-bg:hover::before {
-  opacity: 1;
-}
-
 .scrim {
-  background-image: linear-gradient(transparent 5.5rem, rgb(30 41 59));
+  background-image: linear-gradient(5.5rem, rgb(30 41 59));
 }
 </style>
