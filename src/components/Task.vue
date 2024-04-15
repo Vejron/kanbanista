@@ -44,7 +44,7 @@ function ageToColor(from: string | Date, to: string | Date, maxDaysDuration = 14
 </script>
 
 <template>
-  <li class="flex gap-4 bg-slate-800 rounded-md border-slate-800 hover:border-purple-500  border-2.5 transition-all">
+  <li class="draggable flex gap-4 bg-slate-800 rounded-md border-slate-800 hover:border-purple-500  border-2.5 transition-all">
     <div :class="ageToColor(task.created, new Date())[1]" class="w-1 rounded-l-md flex-none" />
     <RouterLink class="block w-full group" :to="{ name: 'task', params: { taskId: task.id } }">
       <div class="py-2.5 pr-4 min-w-0 w-full">

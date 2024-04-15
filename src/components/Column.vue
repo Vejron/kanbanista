@@ -28,10 +28,8 @@ dragAndDrop({
   parent: listRef,
   values: tasks,
   group: 'tasks',
-  dragHandle: ".drag-handle",
   dropZoneClass: "dragging",
   plugins: [animations()],
-
   // override the default handleEnd function to update the tasks
   // on the broker only after the drag and drop operation is completed
   handleEnd(e) {
