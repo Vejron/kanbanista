@@ -2,7 +2,7 @@
 
 In this part of the tutorial, we will set up UnoCss in our project and start styling our kanban board. UnoCss is a utility-first CSS framework inspired by Tailwind CSS but faster and generally less hassle. UnoCss generates only the CSS that is actually used in the project. This makes it a great choice for Vue 3 projects as it allows us to use atomic classes without worrying about the final bundle size.
 
-## Cleaning Up
+## Cleaning up and configuring UnoCss
 
 Before we start building the kanban board, let's clean up the project a bit. Remove all files from the `src/components` & `src/views` directory and delete the `src/assets/logo.png` file. We won't be needing them for this tutorial. Keep only the `main.css` file in the `src/assets` directory but replace its contents with the following:
 
@@ -51,7 +51,7 @@ import "@unocss/reset/tailwind.css";
 import "virtual:uno.css";
 ```
 
-Then add a uno.config.ts file to the root of the project with the following content:
+Then add a `uno.config.ts` file to the root of the project with the following content:
 
 ```ts
 import { defineConfig, presetTypography, presetUno } from "unocss";
@@ -80,3 +80,63 @@ export default defineConfig({
   },
 });
 ```
+
+## Fixing the application state
+
+Right now our application is not working and you probably see an error message in the browser, complaining about a missing component and incorrect router configuration. Lets fix that by removing all the routes from the `src/router/index.ts`
+
+```ts
+import { createRouter, createWebHistory } from 'vue-router'
+
+const router = createRouter({
+  history: createWebHistory(import.meta.env.BASE_URL),
+  routes: []
+})
+
+export default router
+```
+
+And replacing `src/App.vue` with the following:
+
+```vue
+<script setup lang="ts">
+import { RouterView } from 'vue-router'
+</script>
+
+<template>
+  <header class="flex justify-center">
+    <h1
+      class="first-letter:text-yellow-400 first-letter:text-7xl text-6xl tracking-tight font-bold my-4 bg-gradient-to-r from-purple-600 via-orange-500 to-purple-600 text-transparent bg-clip-text">
+      Kanbanista
+    </h1>
+  </header>
+  <div class="w-full bg-gradient-to-r from-purple-900 via-orange-500 to-purple-900 h-.5 mb-6"></div>
+
+  <main class="flex flex-col flex-grow mb-6">
+    <RouterView />
+  </main>
+</template>
+```
+
+To get a nice radial gradient backdrop wee need to add the following to the `index.html` file:
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" href="/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vite App</title>
+  </head>
+  <body class="bg-black">
+    <div
+      class="bg-gradient-radial from-slate-900 via-slate-900 to-purple-900/60"
+      id="app"
+    ></div>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
+```
+
+Now the application should be in a working state and we can start building the kanban board in the next part of the tutorial.

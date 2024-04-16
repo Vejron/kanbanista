@@ -19,12 +19,12 @@ npm i @vueuse/core mqtt snarkdown @formkit/drag-and-drop
 ```
 
 ```sh
-npm i --save-dev @iconify/vue
+npm i --save-dev unocss @iconify/vue
 ```
 
 This will install the excellent VueUse library (which is almost akin to a standard lib for Vue), the MQTT client library, Snarkdown (a markdown parser) and a library to help with drag-and-drop stuff.
 
-It also installs support for iconify icons. You can find a list of available icons at [iconify.design](https://iconify.design/).
+It also installs support for iconify icons and UnoCss. You can find a list of available icons at [iconify.design](https://iconify.design/).
 
 ### Compile and Hot-Reload for Development
 

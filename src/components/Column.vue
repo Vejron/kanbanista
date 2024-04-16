@@ -37,15 +37,6 @@ dragAndDrop({
     handleEnd(e)
   },
 })
-
-watch(tasks, () => {
-  // WORKAROUND: as the tasks change, we need to remap the nodes because the dragAndDrop library doesn't
-  // update the nodes as it should
-  setTimeout(() => {
-    // remapNodes(listRef.value)
-  }, 0)
-})
-
 </script>
 
 <template>

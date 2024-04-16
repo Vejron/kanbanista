@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import Setup from '@/tutorial/setup.md'
 import Part2 from '@/tutorial/part-2.md'
+import Part3 from '@/tutorial/part-3.md'
 </script>
 
 <template>
@@ -9,6 +10,8 @@ import Part2 from '@/tutorial/part-2.md'
       <Setup />
       <div class="bg-red h-1 my-10"></div>
       <Part2 />
+      <div class="bg-red h-1 my-10"></div>
+      <Part3 />
     </div>
 
   </section>

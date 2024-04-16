@@ -1,13 +1,9 @@
 export interface ITask {
   id: string
-  key?: string
   created: string
   title: string
   priority: number
-  summary?: string
   description?: string
-  estimate?: number
-  assignee?: string
   status: TaskStatus
 }
 
