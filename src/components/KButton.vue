@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { Icon } from '@iconify/vue';
 
-const props = withDefaults(defineProps<{
+withDefaults(defineProps<{
   icon?: string
   color?: 'primary' | 'warning'
   variant?: 'filled' | 'text'

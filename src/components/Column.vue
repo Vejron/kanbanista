@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { ref, toRef, watch } from 'vue'
+import { ref, toRef } from 'vue'
 import { TaskStatus } from '@/types'
 import { dragAndDrop } from "@formkit/drag-and-drop/vue";
 import { useMqtt } from '@/services/mqtt';
-import { animations, remapNodes, handleEnd } from "@formkit/drag-and-drop";
+import { animations, handleEnd } from "@formkit/drag-and-drop";
 import Task from '@/components/Task.vue'
 import { Icon } from '@iconify/vue';
 import { useRouter } from 'vue-router';
@@ -61,6 +61,5 @@ dragAndDrop({
 <style>
 .dragging {
   @apply bg-orange-600;
-
 }
 </style>

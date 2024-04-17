@@ -5,7 +5,6 @@ import TaskView from '../views/TaskView.vue'
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
-   
     {
       path: '/',
       name: 'board',

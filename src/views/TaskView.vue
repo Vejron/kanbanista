@@ -30,7 +30,6 @@ const newTask = ref<ITask>({
   id: '',
   priority: 0,
   status: TaskStatus.Todo,
-  assignee: '',
   created: new Date().toISOString(),
 })
 
