@@ -37,17 +37,28 @@ import Part5 from '@/tutorial/part-5-persistance.md'
           <component :is="Component" />
         </transition>
       </router-view>
-
-<!-- 
-      <Setup />
-      <div class="bg-red h-1 my-10"></div>
-      <Part2 />
-      <div class="bg-red h-1 my-10"></div>
-      <Part3 />
-      <div class="bg-red h-1 my-10"></div>
-      <Part4 />
-      <div class="bg-red h-1 my-10"></div>
-      <Part5 /> -->
+      <nav>
+        <ul class="flex gap-4 list-none max-w-[80ch] not-prose">
+          <li>
+            <router-link class="link" to="/about">Setup</router-link>
+          </li>
+          <li>
+            <router-link class="link" to="/about/part-2">Part 2</router-link>
+          </li>
+          <li>
+            <router-link class="link" to="/about/part-3">Part 3</router-link>
+          </li>
+          <li>
+            <router-link class="link" to="/about/part-4">Part 4</router-link>
+          </li>
+          <li>
+            <router-link class="link" to="/about/part-5">Part 5</router-link>
+          </li>
+          <li>
+            <router-link class="link" to="/about/part-6">Part 6</router-link>
+          </li>
+        </ul>
+      </nav>
     </div>
 
   </section>

@@ -1,6 +1,6 @@
 # Part 1 - Setup
 
-This tutorial is a step-by-step guide to building a Vue 3 kanban™ application from scratch. The tutorial is designed to be beginner-friendly and assumes no prior knowledge of **Vue** but some familiarity with **JavaScript** and web development in general is recommended.
+This tutorial is a step-by-step, copy & paste, guide to building a Vue 3 kanban™ application from scratch. It's designed to be beginner-friendly and assumes no prior knowledge of **Vue** but some familiarity with **JavaScript** and web development in general is recommended.
 
 ## Prerequisites
 
