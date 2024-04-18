@@ -1,10 +1,10 @@
-# Adding create, update, and delete functionality
+# Create, update, and delete
 
-Now that we have something basic that kind of works, let's add some more functionality to our application. We'll add the ability to create, update, and delete tasks.
+Now that we have something basic that kind of works, let's add the ability to **create**, **update**, and **delete** tasks.
 
 ## The TaskView
 
-Let's add a new view to our application. This view will be responsible for creating, updating, and deleting tasks. We'll call it `TaskView`. We'll also add a new route to our application that will point to this view. Create a new file called `TaskView.vue` in the `src/views` directory and add the following code:
+Let's add a new view to our application. This view will be responsible for creating, updating, and deleting tasks. We'll call it `TaskView`. We'll also add a new route to our application that will point to this view. Create a file called `TaskView.vue` in the `src/views` directory and fill it with the following content:
 
 ```ts
 <script setup lang="ts">
@@ -81,7 +81,7 @@ function addTask(task: ITask) {
 
           <div class="col-span-7">
             <label class="text-gray-400 flex justify-end text-sm font-semibold mb-2" for="id-priority">Priority</label>
-            <select class="text-field focus:ring-purple focus:ring-2" v-model="task.priority">
+            <select id="id-priority" class="text-field focus:ring-purple focus:ring-2" v-model="task.priority">
               <option class="b-slate-800" disabled>Please select one</option>
               <option class="bg-slate-800 py-2 leading-19" v-for="option in priorityOptions" :key="option.value"
                 :value="option.value">
@@ -210,11 +210,11 @@ dragAndDrop({
 </style>
 ```
 
-Now when clicking the button, the `TaskView` will open in create mode. We will add the ability to edit an existing task in the next section.
+Now when clicking the button tiny + button, the `TaskView` will open in create mode. We will add the ability to edit an existing task in the next section.
 
 ## Edit an existing task
 
-To edit an existing task, we need a way to open the `TaskView` in edit mode. We will achieve this by by replacing the second `<div>` with a `RouterLink`. Like this:
+To edit an existing task, we need a way to open the `TaskView` in edit mode. We will achieve this by by replacing the second `<div>` with a `RouterLink` in our `KTask` component. Open the `src/components/KTask.vue` file and modify it as follows:
 
 ```html
 <div class="block w-full group">
@@ -235,4 +235,4 @@ This should make each task in a column clickable. When clicked, the `TaskView` w
 
 ## Conclusion
 
-We have added the ability to create, update, and delete tasks in our application. We have also added some basic validation to the `TaskView` to ensure that the user cannot add a task without a title. In the next section, we will modify the persistance layer to use the browser's local storage to persist the tasks. and then finally make it multiplayer by adding a real backend.
+We have added the ability to create, update, and delete tasks in our application. In the next section, we will modify the persistance layer to use the browser's local storage to persist the tasks between reloads and then finally make it **multiplayer** by adding a "real" backend.

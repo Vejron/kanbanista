@@ -1,10 +1,10 @@
-# Part 2 - Styling with UnoCss
+# Part 2 - Cleaning up and styling with UnoCss
 
-In this part of the tutorial, we will set up UnoCss in our project and start styling our kanban board. UnoCss is a utility-first CSS framework inspired by Tailwind CSS but faster and generally less hassle. UnoCss generates only the CSS that is actually used in the project. This makes it a great choice for Vue 3 projects as it allows us to use atomic classes without worrying about the final bundle size.
+In this part of the tutorial we will clean up our project a bit and start styling our application. UnoCss is a utility-first CSS framework inspired by Tailwind CSS but faster and generally less hassle. UnoCss generates only the CSS that is actually used in the project. This makes it a great choice for Vue 3 projects as it allows us to use atomic classes without worrying about the final bundle size.
 
-## Cleaning up and configuring UnoCss
+## Cleaning up and global CSS
 
-Before we start building the kanban board, let's clean up the project a bit. Remove all files from the `src/components` & `src/views` directory and delete the `src/assets/logo.png` file. We won't be needing them for this tutorial. Keep only the `main.css` file in the `src/assets` directory but replace its contents with the following:
+Remove all files from the `src/components` & `src/views` directory and delete the `src/assets/logo.png` file. We won't be needing them for this tutorial. Keep only the `main.css` file in the `src/assets` directory but replace it with the following content:
 
 ```css
 html,
@@ -43,33 +43,37 @@ select {
 }
 ```
 
-This is our only "global" CSS file. It contains some basic styles and a default transition for Vue animations. We will add more styles as we build the kanban board but those will be scoped specifically to each component and usually consist of only atomic UnoCss classes. On that note, UnoCss needs some setup to start working. Add the following imports to the top of the `src/main.ts` file:
+This is our only "global" CSS file. It contains some basic styles and a default transition for Vue animations. We will add more styles as we continue to build our application, but those will be scoped specifically to each component and usually consist of only atomic UnoCSS classes.
+
+## Configuring UnoCss
+
+UnoCSS needs some setup to start working. Add the following imports to the top of the `src/main.ts` file:
 
 ```ts
-import "./assets/main.css";
-import "@unocss/reset/tailwind.css";
-import "virtual:uno.css";
+import "./assets/main.css"
+import "@unocss/reset/tailwind.css"
+import "virtual:uno.css"
 ```
 
 Then add a `uno.config.ts` file to the root of the project with the following content:
 
 ```ts
-import { defineConfig, presetTypography, presetUno } from "unocss";
-import transformerDirectives from "@unocss/transformer-directives";
+import { defineConfig, presetTypography, presetUno } from "unocss"
+import transformerDirectives from "@unocss/transformer-directives"
 
 export default defineConfig({
   presets: [presetUno(), presetTypography()],
   transformers: [transformerDirectives()],
-});
+})
 ```
 
 This configuration file is then read by the UnoCss plugin and used to generate the necessary CSS for our project. To enable that we also need to add the plugin to the Vite configuration in the `vite.config.ts` file:
 
 ```ts
-import { fileURLToPath, URL } from "node:url";
-import { defineConfig } from "vite";
-import Vue from "@vitejs/plugin-vue";
-import UnoCSS from "unocss/vite";
+import { fileURLToPath, URL } from "node:url"
+import { defineConfig } from "vite"
+import Vue from "@vitejs/plugin-vue"
+import UnoCSS from "unocss/vite"
 
 export default defineConfig({
   plugins: [Vue(), UnoCSS()],
@@ -78,10 +82,10 @@ export default defineConfig({
       "@": fileURLToPath(new URL("./src", import.meta.url)),
     },
   },
-});
+})
 ```
 
-## Fixing the application state
+### Fixing the application state
 
 Right now our application is not working and you probably see an error message in the browser, complaining about a missing component and incorrect router configuration. Lets fix that by removing all the routes from the `src/router/index.ts`
 
@@ -98,7 +102,7 @@ export default router
 
 And replacing `src/App.vue` with the following:
 
-```vue
+```ts
 <script setup lang="ts">
 import { RouterView } from 'vue-router'
 </script>
@@ -118,7 +122,7 @@ import { RouterView } from 'vue-router'
 </template>
 ```
 
-To get a nice radial gradient backdrop wee need to add the following to the `index.html` file:
+To get a nice radial gradient backdrop wee need to change our `index.html` file to this:
 
 ```html
 <!DOCTYPE html>
@@ -139,4 +143,6 @@ To get a nice radial gradient backdrop wee need to add the following to the `ind
 </html>
 ```
 
-Now the application should be in a working state and we can start building the kanban board in the next part of the tutorial.
+## Conclusion
+
+Now the application should be in a working state again. We have cleaned up the project and added some nice bling with UnoCss. In the next part of the tutorial we will start building the actual Kanban board.

@@ -8,7 +8,37 @@ import Part5 from '@/tutorial/part-5-persistance.md'
 
 <template>
   <section class="w-full flex justify-center">
-    <div class="prose prose-light text-base ">
+    
+    <div class="prose prose-light text-base !max-w-[80ch]">
+      <nav>
+        <ul class="flex gap-4 list-none max-w-[80ch] not-prose">
+          <li>
+            <router-link class="link" to="/about">Setup</router-link>
+          </li>
+          <li>
+            <router-link class="link" to="/about/part-2">Part 2</router-link>
+          </li>
+          <li>
+            <router-link class="link" to="/about/part-3">Part 3</router-link>
+          </li>
+          <li>
+            <router-link class="link" to="/about/part-4">Part 4</router-link>
+          </li>
+          <li>
+            <router-link class="link" to="/about/part-5">Part 5</router-link>
+          </li>
+          <li>
+            <router-link class="link" to="/about/part-6">Part 6</router-link>
+          </li>
+        </ul>
+      </nav>
+      <router-view v-slot="{ Component }">
+        <transition mode="out-in">
+          <component :is="Component" />
+        </transition>
+      </router-view>
+
+<!-- 
       <Setup />
       <div class="bg-red h-1 my-10"></div>
       <Part2 />
@@ -17,8 +47,19 @@ import Part5 from '@/tutorial/part-5-persistance.md'
       <div class="bg-red h-1 my-10"></div>
       <Part4 />
       <div class="bg-red h-1 my-10"></div>
-      <Part5 />
+      <Part5 /> -->
     </div>
 
   </section>
 </template>
+
+<style scoped>
+.link {
+  @apply text-purple-400 hover:text-yellow-500 transition-all;
+}
+
+.router-link-exact-active {
+  @apply text-orange-500 font-bold;
+}
+
+</style>

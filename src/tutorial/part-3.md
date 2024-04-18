@@ -1,10 +1,10 @@
 # The board view
 
-When using any component based framework, it is important to break down the UI into smaller components. This makes the code DRY:er and more maintainable. In this part of the tutorial, we will create a `BoardView` component that will contain all the `Coloumn`-s and `Task`-s of our kanban board.
+When using any component based framework, it is important to break down the UI into smaller components. This makes the code DRY:er and more maintainable. In this part of the tutorial, we will create a `BoardView` component that will contain all the `KColumn`:s and `KTask`:s of our kanban board. These, in turn, depend on the `KBtn` and `KMarkdown` components. But first we need to define some types and create a simple (mock) backend to store the tasks.
 
 ## Typescript definitions and a simple backend
 
-Before we start building the `BoardView` and associated components, let's define some types and create a simple service to store the **tasks**. Create a `types.ts` file in the `src` directory with the following content:
+Before we start building the `BoardView` and associated components, let's define some **types** and create a simple service to store the **tasks**. Create a `types.ts` file in the `src` directory with the following content:
 
 ```ts
 export interface ITask {
@@ -56,7 +56,7 @@ function reset() {
   todo.value = [
     {
       id: uuid(),
-      created: new Date().toISOString(),
+      created: "2024-03-18T06:10:19.077Z",
       title: "This task is in the todo list",
       description: '## This is H2\n### This is H3\n#### This is H4\nThen some smallish paragraph',
       priority: 1,
@@ -66,7 +66,7 @@ function reset() {
   inProgress.value = [
     {
       id: uuid(),
-      created: new Date().toISOString(),
+      created: "2024-04-13T06:10:19.077Z",
       title: "This task is in progress. You can drag it to the done list when it's done.",
       description: '## *Cat picture in cursive* ![Alt Text](https://media.giphy.com/media/vFKqnCdLPNOKc/giphy.gif)',
       priority: 2,
@@ -102,17 +102,17 @@ export function usePersistance() {
 }
 ```
 
-usePersistance is a so called composable function that returns the **tasks** as reactive arrays, as well as the `add`, `remove`, `reset` and `taskById` functions. The `add` function adds a task to the correct array based on the task's status. The `remove` function removes a task from all arrays. The `reset` function resets the arrays to their initial state. The `taskById` function returns a task based on its id. this can then be called from any component that imports the `usePersistance` function.
+The `usePersistance` function can then be used as a singleton service in any component that needs to interact with our tasks. The `reset` function will load the initial tasks into the columns. The `taskById` function will return a task based on its id. The other functions are pretty self-explanatory.
 
 ## The components
 
-The BoardView component will contain all the columns and tasks of our kanban board. the columns and task will in turn contain two other reusable components, `KBtn` and `KMarkdown`. So to make this as smooth as poossible we will create these components first.
+The board view component will contain all the columns and tasks of our kanban board. the columns and task will in turn contain two other reusable components, `KBtn` and `KMarkdown`. So to make this as smooth as possible we will create these components first.
 
 ### KBtn
 
 This is just a simple button that encapsulates some stylistic choices that we will use throughout the application. Create a `KBtn.vue` file in the `src/components` directory with the following content:
 
-```vue
+```ts
 <script setup lang="ts">
 import { Icon } from '@iconify/vue';
 
@@ -146,9 +146,9 @@ const warningColors = 'bg-orange-600 border-orange-600 text-yellow-100'
 
 ### KMarkdown
 
-This component is a minimal wrapper around the `snarkdown` markdown renderer. It also uses the typography preset from UnoCss to get som default markdown styles. Create a `KMarkdown.vue` file in the `src/components` directory with the following content:
+This component is a minimal wrapper around the `snarkdown` markdown renderer. It also uses the typography preset from UnoCSS to get som default markdown styles. this is also a good example of how to use the builtin `v-html` directive to render raw HTML in a Vue component. Create the `KMarkdown.vue` file in the `src/components` directory with the following content:
 
-```vue
+```ts
 <script setup lang="ts">
 import snark from 'snarkdown'
 
@@ -164,7 +164,9 @@ defineProps<{
 
 ### KTask
 
-`KTask` represent a draggable task on the board. It's purpose is to display the task's information in a somewhat compact way. Create the `KTask.vue` file in the `src/components` directory with the following content:
+`KTask` represent a task on the board. It's purpose is to display the task's information in a somewhat compact way. This is a non-trivial component that contains some logic for calculating the age of the task and the color of the age indicator. It also contains a function for cycling the priority of the task. The task's description is rendered using the `KMarkdown` component. The task's priority is displayed as an icon with a color that corresponds to the priority level. The task's age is displayed using the `useTimeAgo` composable.
+
+Create the `KTask.vue` file in the `src/components` directory with the following content:
 
 ```ts
 <script setup lang="ts">
@@ -256,7 +258,7 @@ function onCyclePriority() {
             {{ createdAt }}
           </time>
           <div class="flex gap-2">
-            <KBtn icon-only :icon-classes="priority.color" :icon="priority.icon" @click="onCyclePriority" />
+            <KBtn icon-only :icon-classes="priority.color" :icon="priority.icon" @click.prevent="onCyclePriority" />
             <img :key="avatar" :src="avatar" alt="avatar" class="w-6 h-6 rounded-full" />
           </div>
         </div>
@@ -283,7 +285,7 @@ Create the `KColumn.vue` file in the `src/components` directory with the followi
 import { ref, toRef } from 'vue'
 import { TaskStatus } from '../types'
 import { dragAndDrop } from "@formkit/drag-and-drop/vue";
-import { animations } from "@formkit/drag-and-drop";
+import { animations, handleEnd } from "@formkit/drag-and-drop";
 import { usePersistance } from '../persistance'
 import KTask from '@/components/KTask.vue'
 
@@ -327,9 +329,9 @@ dragAndDrop({
 </style>
 ```
 
-## The BoardView and router configuration
+### The BoardView and router configuration
 
-The `BoardView` component will contain all the columns and tasks of our kanban board. It's also the root view of our application and should be the component that is rendered when the user navigates to the root URL. Create the `BoardView.vue` file in the `src/views`. There is nothing special about this component, it's no different from any other component in our application. But by convention views are placed in the `views` directory to differentiate them from other components.
+The `BoardView` component will contain all the columns and tasks of our kanban board. It's also the root view of our application and should be the component that is rendered when the user navigates to the root URL. Create the `BoardView.vue` file in the `src/views`. There is nothing special about this component, it's no different from any other component in our application, but; by convention views are placed in the `views` directory to differentiate them from other components.
 
 ```ts
 <script setup lang="ts">
@@ -384,4 +386,6 @@ const router = createRouter({
 export default router
 ```
 
-Now when you navigate to the root URL of the application, the `BoardView` component will be rendered. And after clicking the **Load initial state** button, you should see the initial tasks in the columns and these should be draggable between the columns.
+## Conclusion
+
+Now when you navigate to the root URL of the application, the `BoardView` component will be rendered. And after clicking the **Load initial state** button, you should see the initial tasks in the columns and these should be draggable between the columns. In the next part of the tutorial, we will add the ability to create new tasks and edit existing ones.
