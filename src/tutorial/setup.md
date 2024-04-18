@@ -45,19 +45,9 @@ This will install the excellent [VueUse](https://vueuse.org/) library (which is 
 
 It also installs development support for [iconify icons](https://iconify.design/) and UnoCss, an atomic CSS framework that generates only the CSS you need.
 
-## Compile and Hot-Reload for Development
-
-Now you can run the following command to start the development server:
-
-```sh
-npm run dev
-```
-
-Open your browser and navigate to `http://localhost:5173` to see the default Vue 3 Welcome app running.
-
 ## Project Structure
 
-Open the project in your editor and take a look at the project structure. Vue does'nt enforce a specific project structure, but the default structure created by the scaffolding tool is how most Vue projects are structured. Starting from the top level, you will see the following directories and files:
+Open the project in your editor and take a look at the project structure. Vue does'nt enforce a specific project structure, but the default structure created by the scaffolding tool is how most **Vue projects** are structured. Starting from the top level, you will see the following directories and files:
 
 - `dist`: Contains the compiled output of the project.
 - `node_modules`: Project dependencies.
@@ -71,4 +61,20 @@ Open the project in your editor and take a look at the project structure. Vue do
 - `package.json`: Project metadata and dependencies.
 - `vite.config.ts`: Configuration for the Vite build tool.
 
-Try changing the content of the `src/components/HelloWorld.vue` component in the `src/components` directory and see the changes reflected in the browser. This is hot-reloading in action, a feature that automatically updates the browser when you make changes to your code. It's not perfect, but when it works it's a big time-saver.
+## A note on Vue SFCs
+
+Vue components can be written in several ways, but by far the most common way is to use Single File Components (SFCs). Other possible ways include JSX and just using the raw Vue API. For this tutorial, we will be using SFCs to define components. An SFC is a file that contains a template, script, and style block for a single component. The template block contains the HTML markup, the script block contains the logic, and the style block contains styles for the component.
+
+Even when using SFCs, there are several ways to write components. For this tutorial, we will be using the Composition API, which is the recommended way to write components in Vue 3. The Composition API allows you to write components in a more modular and flexible way than the older the Options API, which was the standard way to define components in Vue 2.
+
+## Compile and Hot-Reload for Development
+
+Now you can run the following command to start the development server:
+
+```sh
+npm run dev
+```
+
+Open your browser and navigate to `http://localhost:5173` where you will be greeted with the default Vue 3 welcome page.
+
+Try changing the content of the `HelloWorld.vue` component in the `src/components` directory and see the changes reflected in the browser. This is hot-reloading in action, a feature that automatically updates the browser when you make changes to your code. It's not perfect, but when it works it's a big time-saver.
