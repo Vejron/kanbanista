@@ -7,7 +7,7 @@ import Part5 from '@/tutorial/part-5-persistance.md'
 </script>
 
 <template>
-  <section class="w-full flex justify-center">
+  <section class="w-full flex justify-center px-4">
     
     <div class="prose prose-light text-base !max-w-[80ch]">
       <nav>

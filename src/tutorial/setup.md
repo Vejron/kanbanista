@@ -63,7 +63,7 @@ Open the project in your editor and take a look at the project structure. Vue do
 
 ## A note on Vue SFCs
 
-Vue components can be written in several ways, but by far the most common way is to use Single File Components (SFCs). Other possible ways include JSX and just using the raw Vue API. For this tutorial, we will be using SFCs to define components. An SFC is a file that contains a template, script, and style block for a single component. The template block contains the HTML markup, the script block contains the logic, and the style block contains styles for the component.
+Vue components can be written in several ways, but by far the most common way is to use **Single File Components** (SFCs). Other possible ways include JSX and just using the raw Vue API. For this tutorial, we will be using SFCs to define components. An SFC is a file that contains a template, script, and style block for a single component. The template block contains the HTML markup, the script block contains the logic, and the style block contains styles for the component.
 
 Even when using SFCs, there are several ways to write components. For this tutorial, we will be using the Composition API, which is the recommended way to write components in Vue 3. The Composition API allows you to write components in a more modular and flexible way than the older the Options API, which was the standard way to define components in Vue 2.
 
