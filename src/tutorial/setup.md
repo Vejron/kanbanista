@@ -9,7 +9,7 @@ Before we start, make sure you have the following tools installed on your machin
 - [Node.js](https://nodejs.org/) (~18)
 - Editor (VS Code, Sublime Text, Atom, etc.)
 - Browser (Chrome, Firefox, Safari, etc.)
-- Git
+- Git *(only needed for the last step)*
 
 For the best experience, Please use [Visual Studio Code](https://code.visualstudio.com/) as your editor as it has the best support for Vue development. It has several extensions that make working with Vue projects a lot smoother. For this tutorial, I recommend the following extensions:
 
