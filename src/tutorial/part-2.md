@@ -1,8 +1,16 @@
-# Part 2 - Cleaning up and styling with UnoCss
+# Part 2 - Styling
 
-In this part of the tutorial we will clean up our project a bit and start styling our application. UnoCss is a utility-first CSS framework inspired by Tailwind CSS but faster and generally less hassle. UnoCss generates only the CSS that is actually used in the project. This makes it a great choice for Vue 3 projects as it allows us to use atomic classes without worrying about the final bundle size.
+In this part of the tutorial we will clean up our project a bit and start styling our application. We will use **UnoCss** for styling. If you are not familiar with UnoCss, it is a utility-first CSS framework inspired by [Tailwind CSS](https://tailwindcss.com/docs/utility-first) but faster and generally less hassle.
 
-## Cleaning up and global CSS
+## Why use UnoCss?
+
+When people first start using utility classes they often think they are a hack or a workaround for not knowing how to write proper CSS. I'm not saying it that's not true, but utility classes have some very real benefits:
+
+- **You aren’t wasting energy inventing class names**. No more adding silly class names like sidebar-inner-wrapper just to be able to style something, and no more agonizing over the perfect abstract name for something that’s really just a flex container.
+- **Your CSS stops growing**. Using a traditional approach, your CSS files get bigger every time you add a new feature. With utilities, everything is reusable so you rarely need to write new CSS.
+- **Making changes feels safer**. CSS is global and you never know what you’re breaking when you make a change. Classes in your HTML are local, so you can change them without worrying about something else breaking.
+
+## Cleaning up and some global CSS
 
 Remove all files from the `src/components` & `src/views` directory and delete the `src/assets/logo.png` file. We won't be needing them for this tutorial. Keep only the `main.css` file in the `src/assets` directory but replace it with the following content:
 
@@ -122,7 +130,9 @@ import { RouterView } from 'vue-router'
 </template>
 ```
 
-To get a nice radial gradient backdrop wee need to change our `index.html` file to this:
+This will remove the error message and give us a nice funky gradient header. All the classes used in the template are from **UnoCss**. It might look a bit weird and hard to read at first, but you will get used to it. The classes are very descriptive and easy to understand once you get the hang of it.
+
+While we are at it, lets also add a nice radial gradient backdrop to the application. We can do this by adding some utility classes to our applications mount point. Replace the content of the `index.html` file with the following:
 
 ```html
 <!DOCTYPE html>
