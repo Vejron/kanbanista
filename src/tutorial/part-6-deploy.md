@@ -13,3 +13,13 @@ Netlify is a service that allows you to deploy static websites for free. It also
 Once you have created an account, you can deploy your application by clicking the `Add new site` dropdown and selecting `Import an existing project`. You will then be presented with a couple of options on how to deploy your application. Pick `Deploy with GitHub`. You will then be asked to authorize Netlify to access your Github account. Once you have done that, you will be presented with a list of repositories. Select the repository you created earlier. You will then be asked to configure your build settings. Everything should be fine by default, but you can change the **site name** if you want. Click the `Deploy` button at the bottom and wait for the magic to happen.
 
 Once the deployment is complete, you will be presented with a link to your application. Click the link and enjoy your creation. Now when you make changes to your application and push them to Github, Netlify will automatically build and deploy your application.
+
+### Page missing when going directly to a sub route
+
+If you navigate directly to a sub route of your application, you will get a 404 error. This is because Netlify is trying to serve the page directly from the server, but the server does not know how to handle the route. To fix this, you need to add a `_redirects` file to the `public` directory of your project. The file should contain the following line:
+
+```txt
+/*    /index.html   200
+```
+
+This tells Netlify to serve the `index.html` file for all routes. This way, the Vue router can take over and handle all the routing.
