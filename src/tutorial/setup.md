@@ -77,4 +77,6 @@ npm run dev
 
 Open your browser and navigate to `http://localhost:5173` where you will be greeted with the default Vue 3 welcome page.
 
+![Welcome image](/images/welcome.webp)
+
 Try changing the content of the `HelloWorld.vue` component in the `src/components` directory and see the changes reflected in the browser. This is hot-reloading in action, a feature that automatically updates the browser when you make changes to your code. It's not perfect, but when it works it's a big time-saver.

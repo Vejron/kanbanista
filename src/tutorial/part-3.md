@@ -388,4 +388,6 @@ export default router
 
 ## Conclusion
 
+![styling](/images/tasks.webp)
+
 Now when you navigate to the root URL of the application, the `BoardView` component will be rendered. And after clicking the **Load initial state** button, you should see the initial tasks in the columns and these should be draggable between the columns. In the next part of the tutorial, we will add the ability to create new tasks and edit existing ones.

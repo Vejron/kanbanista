@@ -233,6 +233,8 @@ Should be replaced with:
 
 This should make each task in a column clickable. When clicked, the `TaskView` will open in edit mode for that specific task. Notice that we are passing the `taskId` as a parameter to the route to let the `TaskView` know which task to edit. Try editing a task and see if it works. When opening in edit mode the `TaskView` also renders a delete button that will remove the task from the list.
 
+![styling](/images/edit.webp)
+
 ## Conclusion
 
 We have added the ability to create, update, and delete tasks in our application. In the next section, we will modify the persistance layer to use the browser's local storage to persist the tasks between reloads and then finally make it **multiplayer** by adding a "real" backend.

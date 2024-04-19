@@ -145,4 +145,6 @@ To get a nice radial gradient backdrop wee need to change our `index.html` file 
 
 ## Conclusion
 
+![styling](/images/style.webp)
+
 Now the application should be in a working state again. We have cleaned up the project and added some nice bling with UnoCss. In the next part of the tutorial we will start building the actual Kanban board.
